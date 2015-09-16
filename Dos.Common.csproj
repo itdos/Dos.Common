@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B9FEF835-EC96-4314-A77D-FFFEA7C43BEE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dos.Common</RootNamespace>
+    <AssemblyName>Dos.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Dos.Common.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\其它\Hxj.Data Source(1.7.4.7)\OrmTest\OrmTest\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\Types.cs" />
+    <Compile Include="EmitMapper\AST\CompilationContext.cs" />
+    <Compile Include="EmitMapper\AST\Helpers\AstBuildHelper.cs" />
+    <Compile Include="EmitMapper\AST\Helpers\CompilationHelper.cs" />
+    <Compile Include="EmitMapper\AST\ILCompilationException.cs" />
+    <Compile Include="EmitMapper\AST\Interfaces\IAstAddr.cs" />
+    <Compile Include="EmitMapper\AST\Interfaces\IAstNode.cs" />
+    <Compile Include="EmitMapper\AST\Interfaces\IAstRef.cs" />
+    <Compile Include="EmitMapper\AST\Interfaces\IAstRefOrAddr.cs" />
+    <Compile Include="EmitMapper\AST\Interfaces\IAstRefOrValue.cs" />
+    <Compile Include="EmitMapper\AST\Interfaces\IAstStackItem.cs" />
+    <Compile Include="EmitMapper\AST\Interfaces\IAstValue.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstBox.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstCallMethod.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstCallMethodVoid.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstCastClass.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstComplexNode.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstConstantInt32.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstConstantNull.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstConstantString.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstExceptionHandlingBlock.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstExprEquals.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstExprIsNull.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstExprNot.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstIf.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstIfNull.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstIfTernar.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstIndirectRead.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstInitializeLocalVariable.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstNewNullable.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstNewObject.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstReadArgument.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstReadArrayItem.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstReadField.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstReadLocal.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstReadProperty.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstReadThis.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstReturn.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstReturnVoid.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstThrow.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstTypeof.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstUnbox.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstValueToAddr.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstWriteField.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstWriteLocal.cs" />
+    <Compile Include="EmitMapper\AST\Nodes\AstWriteProperty.cs" />
+    <Compile Include="EmitMapper\Conversion\ArraysConverter.cs" />
+    <Compile Include="EmitMapper\Conversion\EMConvert.cs" />
+    <Compile Include="EmitMapper\Conversion\NativeConvert.cs" />
+    <Compile Include="EmitMapper\Conversion\NullableConverter.cs" />
+    <Compile Include="EmitMapper\Conversion\StaticConvertersManager.cs" />
+    <Compile Include="EmitMapper\DynamicAssemblyManager.cs" />
+    <Compile Include="EmitMapper\EmitBuilders\BuilderUtils.cs" />
+    <Compile Include="EmitMapper\EmitBuilders\CreateTargetInstanceBuilder.cs" />
+    <Compile Include="EmitMapper\EmitBuilders\MappingBuilder.cs" />
+    <Compile Include="EmitMapper\EmitBuilders\MappingOperationsProcessor.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Delegates\DelegateInvoker.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Delegates\DelegateInvokerAction_0.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Delegates\DelegateInvokerAction_1.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Delegates\DelegateInvokerAction_2.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Delegates\DelegateInvokerAction_3.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Delegates\DelegateInvokerBase.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Delegates\DelegateInvokerFunc_0.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Delegates\DelegateInvokerFunc_1.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Delegates\DelegateInvokerFunc_2.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Delegates\DelegateInvokerFunc_3.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Methods\MethodInvoker.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Methods\MethodInvokerAction_0.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Methods\MethodInvokerAction_1.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Methods\MethodInvokerAction_2.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Methods\MethodInvokerAction_3.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Methods\MethodInvokerBase.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Methods\MethodInvokerFunc_0.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Methods\MethodInvokerFunc_1.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Methods\MethodInvokerFunc_2.cs" />
+    <Compile Include="EmitMapper\EmitInvoker\Methods\MethodInvokerFunc_3.cs" />
+    <Compile Include="EmitMapper\EmitMapperException.cs" />
+    <Compile Include="EmitMapper\Mappers\CustomMapperImpl.cs" />
+    <Compile Include="EmitMapper\Mappers\MapperForClassImpl.cs" />
+    <Compile Include="EmitMapper\Mappers\MapperForCollectionImpl.cs" />
+    <Compile Include="EmitMapper\Mappers\MapperPrimitiveImpl.cs" />
+    <Compile Include="EmitMapper\Mappers\ObjectsMapperBaseImpl.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\CustomConverterDescriptor.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\CustomMapConfig.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\DefaultCustomConverterProvider.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\DefaultMapConfig.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\ICustomConverter.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\ICustomConverterProvider.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\IMappingConfigurator.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MapConfigBase.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MapConfigBaseImpl.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\DestSrcReadOperation.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\DestWriteOperation.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\Interfaces\IComplexOperation.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\Interfaces\IDestOperation.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\Interfaces\IDestReadOperation.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\Interfaces\IDestWriteOperation.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\Interfaces\IMappingOperation.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\Interfaces\IReadWriteOperation.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\Interfaces\IRootMappingOperation.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\Interfaces\ISrcOperation.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\Interfaces\ISrcReadOperation.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\Interfaces\ISrcWriteOperation.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\MappingOperationDelegates.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\OperationsBlock.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\ReadWriteComplex.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\ReadWriteSimple.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\RootMappingOperation.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MappingOperations\SrcReadOperation.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\MemberDescriptor.cs" />
+    <Compile Include="EmitMapper\MappingConfiguration\TypeList.cs" />
+    <Compile Include="EmitMapper\ObjectMapperManager.cs" />
+    <Compile Include="EmitMapper\ObjectsMapper.cs" />
+    <Compile Include="EmitMapper\Utils\MiscUtils.cs" />
+    <Compile Include="EmitMapper\Utils\ReflectionUtils.cs" />
+    <Compile Include="EmitMapper\Utils\ThreadSaveCache.cs" />
+    <Compile Include="Helper\CacheHelper.cs" />
+    <Compile Include="Helper\CmdHelper.cs" />
+    <Compile Include="Helper\ConvertHelper.cs" />
+    <Compile Include="Helper\CookieHelper.cs" />
+    <Compile Include="Helper\EncryptHelper.cs" />
+    <Compile Include="Helper\IPHelper.cs" />
+    <Compile Include="Helper\HttpHelper.cs" />
+    <Compile Include="Helper\LogHelper.cs" />
+    <Compile Include="Helper\MapperHelper.cs" />
+    <Compile Include="Helper\RegexHelper.cs" />
+    <Compile Include="Helper\ImageHelper.cs" />
+    <Compile Include="Model\AccountInfo.cs" />
+    <Compile Include="Model\BaseResult.cs" />
+    <Compile Include="Helper\EmailHelper.cs" />
+    <Compile Include="Helper\XLinqHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Helper\QueueHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resource\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

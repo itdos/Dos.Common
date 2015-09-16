@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Interface Name="EmitMapper.MappingConfiguration.MappingOperations.IComplexOperation" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <InheritanceLine Type="EmitMapper.MappingConfiguration.MappingOperations.IMappingOperation" FixedFromPoint="true">
+      <Path>
+        <Point X="5" Y="1.812" />
+        <Point X="2.375" Y="1.812" />
+        <Point X="2.375" Y="2.846" />
+        <Point X="2" Y="2.846" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MappingConfiguration\MappingOperations\Interfaces\IComplexOperation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EmitMapper.MappingConfiguration.MappingOperations.ISrcWriteOperation" Collapsed="true">
+    <Position X="2.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MappingConfiguration\MappingOperations\Interfaces\ISrcWriteOperation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EmitMapper.MappingConfiguration.MappingOperations.IDestOperation">
+    <Position X="8.5" Y="2.75" Width="1.5" />
+    <InheritanceLine Type="EmitMapper.MappingConfiguration.MappingOperations.IMappingOperation" FixedFromPoint="true">
+      <Path>
+        <Point X="6.125" Y="2.062" />
+        <Point X="6.125" Y="2.375" />
+        <Point X="9.25" Y="2.375" />
+        <Point X="9.25" Y="2.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>MappingConfiguration\MappingOperations\Interfaces\IDestOperation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EmitMapper.MappingConfiguration.MappingOperations.IDestReadOperation">
+    <Position X="9.5" Y="4.75" Width="2" />
+    <InheritanceLine Type="EmitMapper.MappingConfiguration.MappingOperations.IDestOperation" FixedFromPoint="true">
+      <Path>
+        <Point X="10" Y="3.625" />
+        <Point X="10.75" Y="3.625" />
+        <Point X="10.75" Y="4.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MappingConfiguration\MappingOperations\Interfaces\IDestReadOperation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EmitMapper.MappingConfiguration.MappingOperations.IDestWriteOperation">
+    <Position X="7.25" Y="4.75" Width="1.5" />
+    <InheritanceLine Type="EmitMapper.MappingConfiguration.MappingOperations.IDestOperation" FixedFromPoint="true">
+      <Path>
+        <Point X="8.5" Y="3.688" />
+        <Point X="7.875" Y="3.688" />
+        <Point X="7.875" Y="4.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MappingConfiguration\MappingOperations\Interfaces\IDestWriteOperation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EmitMapper.MappingConfiguration.MappingOperations.IMappingOperation" Collapsed="true">
+    <Position X="5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MappingConfiguration\MappingOperations\Interfaces\IMappingOperation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EmitMapper.MappingConfiguration.MappingOperations.IReadWriteOperation" Collapsed="true">
+    <Position X="6.25" Y="6.75" Width="1.75" />
+    <InheritanceLine Type="EmitMapper.MappingConfiguration.MappingOperations.IDestWriteOperation" ManuallyRouted="true">
+      <Path>
+        <Point X="8" Y="5.747" />
+        <Point X="8" Y="6.183" />
+        <Point X="7.125" Y="6.183" />
+        <Point X="7.125" Y="6.75" />
+      </Path>
+    </InheritanceLine>
+    <InheritanceLine Type="EmitMapper.MappingConfiguration.MappingOperations.ISrcReadOperation" FixedToPoint="true">
+      <Path>
+        <Point X="5.75" Y="4.941" />
+        <Point X="5.75" Y="6.375" />
+        <Point X="6.5" Y="6.375" />
+        <Point X="6.5" Y="6.75" />
+      </Path>
+    </InheritanceLine>
+    <InheritanceLine Type="EmitMapper.MappingConfiguration.MappingOperations.IDestReadOperation" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="10.5" Y="5.747" />
+        <Point X="10.5" Y="6.419" />
+        <Point X="7.625" Y="6.419" />
+        <Point X="7.625" Y="6.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>MappingConfiguration\MappingOperations\Interfaces\IReadWriteOperation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EmitMapper.MappingConfiguration.MappingOperations.ISrcOperation" Collapsed="true">
+    <Position X="4" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MappingConfiguration\MappingOperations\Interfaces\ISrcOperation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EmitMapper.MappingConfiguration.MappingOperations.ISrcReadOperation" Collapsed="true">
+    <Position X="5" Y="4.25" Width="1.5" />
+    <InheritanceLine Type="EmitMapper.MappingConfiguration.MappingOperations.ISrcOperation" FixedFromPoint="true">
+      <Path>
+        <Point X="4.875" Y="3.441" />
+        <Point X="4.875" Y="3.875" />
+        <Point X="5.75" Y="3.875" />
+        <Point X="5.75" Y="4.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MappingConfiguration\MappingOperations\Interfaces\ISrcReadOperation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
