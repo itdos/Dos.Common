@@ -1,7 +1,7 @@
 ﻿#region << 版 本 注 释 >>
 /****************************************************
-* 文 件 名：MyConcurrent
-* Copyright(c) 青之软件
+* 文 件 名：
+* Copyright(c) www.ITdos.com
 * CLR 版本: 4.0.30319.17929
 * 创 建 人：ITdos
 * 电子邮箱：admin@itdos.com
@@ -22,12 +22,120 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System.Reflection.Emit;
 using System.Threading;
-
 namespace Dos.Common
 {
+    /// <summary>
+    /// 队列操作类
+    /// </summary>
     public class QueueHelper
     {
-        static ConcurrentDictionary<string, object> dicPool = new ConcurrentDictionary<string, object>();
+        #region 队列参数
+        /// <summary>
+        /// 队列参数
+        /// </summary>
+        public class QueueParam
+        {
+            /// <summary>
+            /// 队列限制数量
+            /// </summary>
+            public int? QueueCount { get; set; }
+            /// <summary>
+            /// 队列池
+            /// </summary>
+            public ConcurrentDictionary<string, object> Pool { get; set; }
+        }
+        #endregion
+
+        #region 动态队列。适用于FIFO先进先出（如抢购活动），初始化需要设置队列最大数量。
+        /// <summary>
+        /// 队列参数
+        /// </summary>
+        public static QueueParam Param;
+        /// <summary>
+        /// 初始化队列
+        /// </summary>
+        public QueueHelper()
+        {
+            Param.Pool = new ConcurrentDictionary<string, object>();
+            Param.QueueCount = 5000;
+        }
+        /// <summary>
+        /// 初始化队列。可动态传入QueueCount
+        /// </summary>
+        public QueueHelper(QueueParam qr)
+        {
+            Param.Pool = qr.Pool ?? new ConcurrentDictionary<string, object>();
+            Param.QueueCount = qr.QueueCount ?? 5000;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public object In(string key)
+        {
+            return In(key, "");
+        }
+        /// <summary>
+        /// 加入队列。成功加入队列后必须在外部手动执行退出队列：QueueHelper对象.Out(string key)。
+        /// </summary>
+        /// <Param name="key">资源Key</Param>
+        /// <Param name="obj"></Param>
+        /// <returns></returns>
+        public static object In(string key, object obj)
+        {
+            var failCount = -1;
+        Start:
+            if (TryGet(key, obj))
+                return obj;
+            failCount++;
+            if (failCount > 5000)
+            {
+                return null;
+            }
+            goto Start;
+        }
+        /// <summary>
+        /// 抢资源
+        /// </summary>
+        /// <Param name="key"></Param>
+        /// <Param name="obj"></Param>
+        /// <returns></returns>
+        private static bool TryGet(string key, object obj)
+        {
+            if (!Param.Pool.Keys.Contains(key)) 
+                return Param.Pool.TryAdd(key, obj);
+            Thread.Sleep(SleepNumber);
+            return false;
+        }
+
+        /// <summary>
+        /// 退出队列/释放资源
+        /// </summary>
+        /// <Param name="key"></Param>
+        public static bool Out(string key)
+        {
+            object s;
+            return !string.IsNullOrWhiteSpace(key) && Param.Pool.TryRemove(key, out s);
+        }
+        /// <summary>
+        /// 退出所有队列/释放所有资源
+        /// </summary>
+        public static void OutAll()
+        {
+            Param.Pool.Clear();
+        }
+        #endregion
+
+        #region 静态队列。适用于锁定资源（如每天电影院不同影院固定座位限制），随时都能加入队列抢资源。
+        /// <summary>
+        /// 尝试入队次数
+        /// </summary>
+        private static int RetryCount = 5000;
+        /// <summary>
+        /// 静态队列池
+        /// </summary>
+        private static ConcurrentDictionary<string, object> staticPool = new ConcurrentDictionary<string, object>();
         /// <summary>
         /// 睡眠时间（毫秒）
         /// </summary>
@@ -36,70 +144,61 @@ namespace Dos.Common
         /// <summary>
         /// 加入队列
         /// </summary>
-        /// <param name="key"></param>
+        /// <Param name="key"></Param>
         /// <returns></returns>
-        public static object Join(string key)
+        public static object StaticIn(string key)
         {
-            return Join(key, "");
+            return StaticIn(key, "");
         }
         /// <summary>
-        /// 加入队列。
+        /// 加入队列。成功加入队列后必须在外部手动执行退出队列：QueueHelper.Out(string key)。
         /// </summary>
-        /// <param name="key">资源Key</param>
-        /// <param name="obj"></param>
+        /// <Param name="key">资源Key</Param>
+        /// <Param name="obj"></Param>
         /// <returns></returns>
-        public static object Join(string key, object obj)
+        public static object StaticIn(string key, object obj)
         {
             var failCount = -1;
         Start:
-            //抢资源
-            if (!TryGet(key, obj))
+            if (StaticTryGet(key, obj)) 
+                return obj;
+            failCount++;
+            if (failCount > RetryCount)
             {
-                failCount++;
-                //如果重试次数超过了N秒。（1000=1秒）
-                if (failCount > 5000)
-                {
-                    return null;
-                }
-                goto Start;
+                return null;
             }
-            //资源到手，慢慢处理。
-            return obj;
-            //释放资源
-            //Free(key);
+            goto Start;
         }
         /// <summary>
         /// 抢资源
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="obj"></param>
+        /// <Param name="key"></Param>
+        /// <Param name="obj"></Param>
         /// <returns></returns>
-        private static bool TryGet(string key, object obj)
+        private static bool StaticTryGet(string key, object obj)
         {
-            if (dicPool.Keys.Contains(key))
-            {
-                Thread.Sleep(SleepNumber);
-                return false;
-            }
-            if (!dicPool.TryAdd(key, obj))
-            {
-                //重新开始
-                return false;
-            }
-            return true;
+            if (!staticPool.Keys.Contains(key)) 
+                return staticPool.TryAdd(key, obj);
+            Thread.Sleep(SleepNumber);
+            return false;
         }
 
         /// <summary>
-        /// 释放资源
+        /// 退出队列/释放资源
         /// </summary>
-        /// <param name="key"></param>
-        public static void Free(string key)
+        /// <Param name="key"></Param>
+        public static bool StaticOut(string key)
         {
             object s;
-            if (!string.IsNullOrWhiteSpace(key))
-            {
-                dicPool.TryRemove(key, out s);
-            }
+            return !string.IsNullOrWhiteSpace(key) && staticPool.TryRemove(key, out s);
         }
+        /// <summary>
+        /// 退出所有队列/释放所有资源
+        /// </summary>
+        public static void StaticOutAll()
+        {
+            staticPool.Clear();
+        }
+        #endregion
     }
 }

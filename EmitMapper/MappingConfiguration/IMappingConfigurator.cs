@@ -14,8 +14,8 @@ namespace EmitMapper
         /// - Custom values converter which converts extracted from source value
         /// - Custom setter which writes value to destination
         /// </summary>
-        /// <param name="from">Source type</param>
-        /// <param name="to">Destination type</param>
+        /// <Param name="from">Source type</Param>
+        /// <Param name="to">Destination type</Param>
         /// <returns></returns>
 		IMappingOperation[] GetMappingOperations(Type from, Type to);
 

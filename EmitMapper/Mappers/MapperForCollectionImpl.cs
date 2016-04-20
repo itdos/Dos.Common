@@ -21,8 +21,8 @@ namespace EmitMapper.Mappers
         /// <summary>
         /// Copies object properties and members of "from" to object "to"
         /// </summary>
-        /// <param name="from">Source object</param>
-        /// <param name="to">Destination object</param>
+        /// <Param name="from">Source object</Param>
+        /// <Param name="to">Destination object</Param>
         /// <returns>Destination object</returns>
         internal override object MapImpl(object from, object to, object state)
         {
@@ -103,8 +103,8 @@ namespace EmitMapper.Mappers
         /// <summary>
         /// Copies object properties and members of "from" to object "to"
         /// </summary>
-        /// <param name="from">Source object</param>
-        /// <param name="to">Destination object</param>
+        /// <Param name="from">Source object</Param>
+        /// <Param name="to">Destination object</Param>
         /// <returns>Destination object</returns>
         public override object Map(object from, object to, object state)
         {
@@ -114,7 +114,7 @@ namespace EmitMapper.Mappers
         /// <summary>
         /// Returns true if specified type is supported by this Mapper
         /// </summary>
-        /// <param name="type"></param>
+        /// <Param name="type"></Param>
         /// <returns></returns>
         internal static bool IsSupportedType(Type type)
         {
@@ -131,11 +131,11 @@ namespace EmitMapper.Mappers
         /// <summary>
         /// Creates an instance of Mapper for collections.
         /// </summary>
-        /// <param name="MapperName">Mapper name. It is used for registration in Mappers repositories.</param>
-        /// <param name="mapperMannager">Mappers manager</param>
-        /// <param name="TypeFrom">Source type</param>
-        /// <param name="TypeTo">Destination type</param>
-        /// <param name="SubMapper"></param>
+        /// <Param name="MapperName">Mapper name. It is used for registration in Mappers repositories.</Param>
+        /// <Param name="mapperMannager">Mappers manager</Param>
+        /// <Param name="TypeFrom">Source type</Param>
+        /// <Param name="TypeTo">Destination type</Param>
+        /// <Param name="SubMapper"></Param>
         /// <returns></returns>
         public static MapperForCollectionImpl CreateInstance(
             string MapperName,

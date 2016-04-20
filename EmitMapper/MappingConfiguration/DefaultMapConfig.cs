@@ -90,7 +90,7 @@ namespace EmitMapper.MappingConfiguration
 		/// <summary>
 		/// Define shallow map mode for the specified type. In that case all members of this type will be copied by reference if it is possible
 		/// </summary>
-		/// <param name="type">Type for which shallow map mode is defining</param>
+		/// <Param name="type">Type for which shallow map mode is defining</Param>
 		/// <returns></returns>
 		public DefaultMapConfig ShallowMap(Type type)
 		{
@@ -121,7 +121,7 @@ namespace EmitMapper.MappingConfiguration
 		/// <summary>
 		/// Define deep map mode for the specified type. In that case all members of this type will be copied by value (new instances will be created)
 		/// </summary>
-		/// <param name="type">Type for which deep map mode is defining</param>
+		/// <Param name="type">Type for which deep map mode is defining</Param>
 		/// <returns></returns>
 		public DefaultMapConfig DeepMap(Type type)
 		{
@@ -142,7 +142,7 @@ namespace EmitMapper.MappingConfiguration
 		/// <summary>
 		/// Define a function to test two members if they have identical names.
 		/// </summary>
-		/// <param name="membersMatcher">Function to test two members if they have identical names. For example if you want to match members ignoring case you can define the following function: (m1, m2) => m1.ToUpper() == m2.ToUpper()</param>
+		/// <Param name="membersMatcher">Function to test two members if they have identical names. For example if you want to match members ignoring case you can define the following function: (m1, m2) => m1.ToUpper() == m2.ToUpper()</Param>
 		/// <returns></returns>
 		public DefaultMapConfig MatchMembers(Func<string, string, bool> membersMatcher)
 		{

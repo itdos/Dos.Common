@@ -71,7 +71,7 @@ namespace EmitMapper.MappingConfiguration
         /// </summary>
         /// <typeparam name="From">Source type</typeparam>
         /// <typeparam name="To">Destination type</typeparam>
-        /// <param name="converter">Function which converts an inctance of the source type to an instance of the destination type</param>
+        /// <Param name="converter">Function which converts an inctance of the source type to an instance of the destination type</Param>
         /// <returns></returns>
         public IMappingConfigurator ConvertUsing<From, To>(Func<From, To> converter)
         {
@@ -83,9 +83,9 @@ namespace EmitMapper.MappingConfiguration
 		/// Define conversion for a generic. It is able to convert not one particular class but all generic family
 		/// providing a generic converter.
 		/// </summary>
-		/// <param name="from">Type of source. Can be also generic class or abstract array.</param>
-		/// <param name="to">Type of destination. Can be also generic class or abstract array.</param>
-		/// <param name="converterProvider">Provider for getting detailed information about generic conversion</param>
+		/// <Param name="from">Type of source. Can be also generic class or abstract array.</Param>
+		/// <Param name="to">Type of destination. Can be also generic class or abstract array.</Param>
+		/// <Param name="converterProvider">Provider for getting detailed information about generic conversion</Param>
 		/// <returns></returns>
         public IMappingConfigurator ConvertGeneric(Type from, Type to, ICustomConverterProvider converterProvider)
         {
@@ -99,7 +99,7 @@ namespace EmitMapper.MappingConfiguration
         /// </summary>
         /// <typeparam name="TFrom">Type of source member</typeparam>
         /// <typeparam name="TTo">Type of destination member</typeparam>
-        /// <param name="nullSubstitutor">Function which returns value for destination if appropriate source member is null</param>
+        /// <Param name="nullSubstitutor">Function which returns value for destination if appropriate source member is null</Param>
         /// <returns></returns>
         public IMappingConfigurator NullSubstitution<TFrom, TTo>(Func<object, TTo> nullSubstitutor)
         {
@@ -110,9 +110,9 @@ namespace EmitMapper.MappingConfiguration
         /// <summary>
         /// Define members which should be ingored
         /// </summary>
-        /// <param name="typeFrom">Source type for which ignore members are defining</param>
-        /// <param name="typeTo">Destination type for which ignore members are defining</param>
-        /// <param name="ignoreNames">Array of member names which should be ingored</param>
+        /// <Param name="typeFrom">Source type for which ignore members are defining</Param>
+        /// <Param name="typeTo">Destination type for which ignore members are defining</Param>
+        /// <Param name="ignoreNames">Array of member names which should be ingored</Param>
         /// <returns></returns>
         public IMappingConfigurator IgnoreMembers(Type typeFrom, Type typeTo, string[] ignoreNames)
         {
@@ -133,7 +133,7 @@ namespace EmitMapper.MappingConfiguration
         /// </summary>
         /// <typeparam name="TFrom">Source type for which ignore members are defining</typeparam>
         /// <typeparam name="TTo">Destination type for which ignore members are defining</typeparam>
-        /// <param name="ignoreNames">Array of member names which should be ingored</param>
+        /// <Param name="ignoreNames">Array of member names which should be ingored</Param>
         /// <returns></returns>
         public IMappingConfigurator IgnoreMembers<TFrom, TTo>(string[] ignoreNames)
         {
@@ -144,7 +144,7 @@ namespace EmitMapper.MappingConfiguration
         /// Define a custom constructor for the specified type
         /// </summary>
         /// <typeparam name="T">Type for which constructor is defining</typeparam>
-        /// <param name="constructor">Custom constructor</param>
+        /// <Param name="constructor">Custom constructor</Param>
         /// <returns></returns>
         public IMappingConfigurator ConstructBy<T>(TargetConstructor<T> constructor)
         {
@@ -156,7 +156,7 @@ namespace EmitMapper.MappingConfiguration
 		/// Define postprocessor for specified type
 		/// </summary>
 		/// <typeparam name="T">Objects of this type and all it's descendants will be postprocessed</typeparam>
-		/// <param name="postProcessor"></param>
+		/// <Param name="postProcessor"></Param>
 		/// <returns></returns>
         public IMappingConfigurator PostProcess<T>(ValuesPostProcessor<T> postProcessor)
         {
@@ -167,7 +167,7 @@ namespace EmitMapper.MappingConfiguration
         /// <summary>
         /// Set unique configuration name to force Emit Mapper create new mapper instead using appropriate cached one.
         /// </summary>
-        /// <param name="mapperName">Configuration name</param>
+        /// <Param name="mapperName">Configuration name</Param>
         /// <returns></returns>
         public IMappingConfigurator SetConfigName(string configurationName)
         {

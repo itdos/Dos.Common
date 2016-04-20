@@ -1,7 +1,7 @@
 ﻿#region << 版 本 注 释 >>
 /****************************************************
 * 文 件 名：IPHelper
-* Copyright(c) 青之软件
+* Copyright(c) www.ITdos.com
 * CLR 版本: 4.0.30319.17929
 * 创 建 人：周浩
 * 电子邮箱：admin@itdos.com

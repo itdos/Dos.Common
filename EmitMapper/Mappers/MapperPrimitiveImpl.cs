@@ -36,8 +36,8 @@ namespace EmitObjectMapper.Mappers
 		/// <summary>
 		/// Copies object properties and members of "from" to object "to"
 		/// </summary>
-		/// <param name="from">Source object</param>
-		/// <param name="to">Destination object</param>
+		/// <Param name="from">Source object</Param>
+		/// <Param name="to">Destination object</Param>
 		/// <returns>Destination object</returns>
 		internal override object MapImpl(object from, object to, object state)
 		{

@@ -12,8 +12,8 @@ namespace EmitMapper.Mappers
         /// <summary>
         /// Copies object properties and members of "from" to object "to"
         /// </summary>
-        /// <param name="from">Source object</param>
-        /// <param name="to">Destination object</param>
+        /// <Param name="from">Source object</Param>
+        /// <Param name="to">Destination object</Param>
         /// <returns>Destination object</returns>
         public virtual object Map(object from, object to, object state)
         {
@@ -46,7 +46,7 @@ namespace EmitMapper.Mappers
         /// <summary>
         /// Creates new instance of destination object and initializes it by values from "from" object
         /// </summary>
-        /// <param name="from">source object</param>
+        /// <Param name="from">source object</Param>
         /// <returns></returns>
         public virtual object Map(object from)
         {
@@ -92,8 +92,8 @@ namespace EmitMapper.Mappers
         /// <summary>
         /// Copies object properties and members of "from" to object "to"
         /// </summary>
-        /// <param name="from">Source object</param>
-        /// <param name="to">Destination object</param>
+        /// <Param name="from">Source object</Param>
+        /// <Param name="to">Destination object</Param>
         /// <returns>Destination object</returns>
         internal abstract object MapImpl(object from, object to, object state);
 

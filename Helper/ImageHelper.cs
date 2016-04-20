@@ -72,7 +72,7 @@ namespace Dos.Common
         /// <summary>
         /// 获取图片格式。
         /// </summary>
-        /// <param name="fileName">文件名</param>
+        /// <Param name="fileName">文件名</Param>
         /// <returns></returns>
         public static ImageFormat GetImageFormat(string fileName)
         {
@@ -100,12 +100,12 @@ namespace Dos.Common
         /// <summary>
         /// 加水印图片并保存。
         /// </summary>
-        /// <param name="originalImageStream">Stream</param>
-        /// <param name="strFileName">源图路径（物理路径）</param>
-        /// <param name="savePath">图片保存路径（物理路径）</param>
-        /// <param name="waterPath">水印图路径（物理路径）</param>
-        /// <param name="edge">水印图离原图边界的距离</param>
-        /// <param name="position">加图片水印的位置</param>
+        /// <Param name="originalImageStream">Stream</Param>
+        /// <Param name="strFileName">源图路径（物理路径）</Param>
+        /// <Param name="savePath">图片保存路径（物理路径）</Param>
+        /// <Param name="waterPath">水印图路径（物理路径）</Param>
+        /// <Param name="edge">水印图离原图边界的距离</Param>
+        /// <Param name="position">加图片水印的位置</Param>
         /// <returns>是否成功</returns>
         public static bool MakeWaterImage(Stream originalImageStream, string strFileName, string savePath, string waterPath, int edge, WaterPositionOption position)
         {
@@ -193,12 +193,12 @@ namespace Dos.Common
         /// <summary>
         /// 生成缩略图并保存。
         /// </summary>
-        /// <param name="originalImageStream">Stream</param>
-        /// <param name="strFileName">源图路径（物理路径）</param>
-        /// <param name="thumbnailPath">缩略图路径（物理路径）</param>
-        /// <param name="maxWidth">缩略图最大宽度</param>
-        /// <param name="maxheight">缩略图最大高度</param>
-        /// <param name="mode">生成缩略图的方式</param>
+        /// <Param name="originalImageStream">Stream</Param>
+        /// <Param name="strFileName">源图路径（物理路径）</Param>
+        /// <Param name="thumbnailPath">缩略图路径（物理路径）</Param>
+        /// <Param name="maxWidth">缩略图最大宽度</Param>
+        /// <Param name="maxheight">缩略图最大高度</Param>
+        /// <Param name="mode">生成缩略图的方式</Param>
         /// <returns>是否成功</returns>
         public static bool MakeThumbnail(Stream originalImageStream, string strFileName, string thumbnailPath, int maxWidth, int maxheight, ThumbnailModeOption mode)
         {
@@ -289,15 +289,15 @@ namespace Dos.Common
         /// <summary>
         /// 生成缩略图并打水印再保存。
         /// </summary>
-        /// <param name="originalImageStream">Stream</param>
-        /// <param name="strFileName">源图路径（物理路径）</param>
-        /// <param name="thumbnailPath">缩略图路径（物理路径）</param>
-        /// <param name="maxWidth">缩略图最大宽度</param>
-        /// <param name="maxheight">缩略图最大高度</param>
-        /// <param name="mode">生成缩略图的方式</param>
-        /// <param name="waterPath">水印图路径（物理路径）</param>
-        /// <param name="edge">水印图离原图边界的距离</param>
-        /// <param name="position">加图片水印的位置</param>
+        /// <Param name="originalImageStream">Stream</Param>
+        /// <Param name="strFileName">源图路径（物理路径）</Param>
+        /// <Param name="thumbnailPath">缩略图路径（物理路径）</Param>
+        /// <Param name="maxWidth">缩略图最大宽度</Param>
+        /// <Param name="maxheight">缩略图最大高度</Param>
+        /// <Param name="mode">生成缩略图的方式</Param>
+        /// <Param name="waterPath">水印图路径（物理路径）</Param>
+        /// <Param name="edge">水印图离原图边界的距离</Param>
+        /// <Param name="position">加图片水印的位置</Param>
         /// <returns>是否成功</returns>
         public static bool MakeThumbnailWater(Stream originalImageStream, string strFileName, string thumbnailPath, int maxWidth, int maxheight, ThumbnailModeOption mode, string waterPath, int edge, WaterPositionOption position)
         {

@@ -65,7 +65,7 @@ namespace EmitMapper
 		/// </summary>
 		/// <typeparam name="TFrom">Type of source object</typeparam>
 		/// <typeparam name="TTo">Type of destination object</typeparam>
-		/// <param name="mappingConfigurator">Object which configures mapping.</param>
+		/// <Param name="mappingConfigurator">Object which configures mapping.</Param>
 		/// <returns>Mapper</returns>
 		public ObjectsMapper<TFrom, TTo> GetMapper<TFrom, TTo>(IMappingConfigurator mappingConfigurator)
 		{
@@ -81,9 +81,9 @@ namespace EmitMapper
 		/// <summary>
 		/// Returns a mapper implementation instance for specified types.
 		/// </summary>
-		/// <param name="from">Type of source object</param>
-		/// <param name="to">Type of destination object</param>
-		/// <param name="mappingConfigurator">Object which configures mapping.</param>
+		/// <Param name="from">Type of source object</Param>
+		/// <Param name="to">Type of destination object</Param>
+		/// <Param name="mappingConfigurator">Object which configures mapping.</Param>
 		/// <returns>Mapper</returns>
 		public ObjectsMapperBaseImpl GetMapperImpl(
 			Type from,

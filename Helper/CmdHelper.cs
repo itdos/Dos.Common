@@ -11,7 +11,7 @@ namespace Dos.Common
         /// <summary>
         /// 运行dos命令
         /// </summary>
-        /// <param name="command"></param>
+        /// <Param name="command"></Param>
         /// <returns></returns>
         public static string Run(string command)
         {

@@ -1,7 +1,7 @@
 ﻿#region << 版 本 注 释 >>
 /****************************************************
 * 文 件 名：EncryptHelper
-* Copyright(c) 青之软件
+* Copyright(c) www.ITdos.com
 * CLR 版本: 4.0.30319.17929
 * 创 建 人：ITdos
 * 电子邮箱：admin@itdos.com
@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Newtonsoft.Json;
 
@@ -28,48 +30,149 @@ namespace Dos.Common
     /// </summary>
     public class HttpHelper
     {
-        private static readonly string UserAgent = "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Maxthon/4.1.2.4000 Chrome/26.0.1410.43 Safari/537.1";
-        private  const string ContentType = "application/x-www-form-urlencoded";
-        private const int TimeOut = 5;
-        private static readonly Encoding DefaultEncoding = Encoding.UTF8;
-
-        #region Get请求
         /// <summary>
-        /// Get方式获取响应流
+        /// 
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="queryString"></param>
-        /// <param name="timeOut">单位：秒</param>
-        /// <param name="encoding"></param>
-        /// <param name="cc"></param>
-        /// <param name="refer"></param>
         /// <returns></returns>
-        public static Stream GetStream(string url, string queryString = null, int timeOut = TimeOut, Encoding encoding = null, CookieContainer cc = null, string refer = null)
+        public static Stream GetStream(string url)
         {
-            url = string.Format("{0}?{1}", url, queryString);
-            var r = CreateRequest(url);
-            r.Timeout = timeOut * 1000;
-            r.UserAgent = UserAgent;
-            r.Referer = refer;
-            r.CookieContainer = cc;
-            r.Method = "GET";
-            return r.GetResponse().GetResponseStream();
+            return RequestStream(new HttpParam()
+            {
+                Url = url,
+                Method = "GET"
+            });
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="param"></param>
-        /// <param name="timeOut">单位：秒</param>
-        /// <param name="encoding"></param>
-        /// <param name="cc"></param>
-        /// <param name="refer"></param>
+        /// <param name="getParam"></param>
         /// <returns></returns>
-        public static Stream GetStream(string url, HttpParam param = null,
-           int timeOut = TimeOut, Encoding encoding = null, CookieContainer cc = null, string refer = null)
+        public static Stream GetStream(string url, object getParam)
         {
-            return GetStream(url, FormatData(param), timeOut, encoding, cc, refer);
+            return RequestStream(new HttpParam()
+            {
+                Url = url,
+                Method = "GET",
+                GetParam = getParam
+            });
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static Stream PostStream(string url)
+        {
+            return RequestStream(new HttpParam()
+            {
+                Url = url,
+                Method = "POST"
+            });
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="postParam"></param>
+        /// <returns></returns>
+        public static Stream PostStream(string url, object postParam)
+        {
+            return RequestStream(new HttpParam()
+            {
+                Url = url,
+                Method = "POST",
+                GetParam = postParam
+            });
+        }
+        /// <summary>
+        /// 获取响应流
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public static Stream RequestStream(HttpParam param)
+        {
+            #region 处理地址栏参数
+            var getParamSb = new StringBuilder();
+            if (param.GetParam != null)
+            {
+                if (param.GetParam is string)
+                {
+                    getParamSb.Append(param.GetParam.ToString());
+                }
+                else
+                {
+                    param.GetParam.GetType().GetProperties().ToList().ForEach(d =>
+                    {
+                        getParamSb.AppendFormat("{0}={1}&", d.Name, d.GetValue(param.GetParam, null));
+                    });
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(getParamSb.ToString().TrimEnd('&')))
+            {
+                param.Url = string.Format("{0}?{1}", param.Url, getParamSb.ToString().TrimEnd('&'));
+            }
+            #endregion
+            var r = WebRequest.Create(param.Url) as HttpWebRequest;
+            if (!string.IsNullOrWhiteSpace(param.CertPath) && !string.IsNullOrWhiteSpace(param.CertPwd))
+            {
+                ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
+                var cer = new X509Certificate2(param.CertPath, param.CertPwd, X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.MachineKeySet);
+                r.ClientCertificates.Add(cer);
+                #region 暂时不要的
+                //ServicePointManager.Expect100Continue = true;
+                //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
+                //req.ProtocolVersion = HttpVersion.Version11;
+                //req.UserAgent = SUserAgent;
+                //req.KeepAlive = false;
+                //var cookieContainer = new CookieContainer();
+                //req.CookieContainer = cookieContainer;
+                //req.Timeout = 1000 * 60;
+                //req.Headers.Add("x-requested-with", "XMLHttpRequest");
+                #endregion
+            }
+            r.Timeout = param.TimeOut * 1000;
+            r.UserAgent = param.UserAgent;
+            r.Method = param.Method ?? "POST";
+            r.Referer = param.Referer;
+            r.CookieContainer = param.CookieContainer;
+            r.ContentType = param.ContentType;
+            if (param.PostParam != null)
+            {
+                var postParamString = "";
+                if (param.PostParam is string)
+                {
+                    postParamString = param.PostParam.ToString();
+                }
+                else
+                {
+                    postParamString = JsonConvert.SerializeObject(param.PostParam);
+                }
+                var bs = param.Encoding.GetBytes(postParamString);
+                r.ContentLength = bs.Length;
+                using (var rs = r.GetRequestStream())
+                {
+                    rs.Write(bs, 0, bs.Length);
+                }
+            }
+            return r.GetResponse().GetResponseStream();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="param"></param>
+        public static string RequestString(HttpParam param)
+        {
+            var result = "";
+            using (var reader = new StreamReader(RequestStream(param), param.Encoding))
+            {
+                result = reader.ReadToEnd();
+            }
+            return result;
+        }
+
+        #region Get请求
         /// <summary>
         /// 
         /// </summary>
@@ -77,272 +180,174 @@ namespace Dos.Common
         /// <returns></returns>
         public static string Get(string url)
         {
-            return Get(url, "");
+            return Get(new HttpParam()
+            {
+                Url = url,
+                Method = "GET"
+            });
         }
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="url"></param>
+        /// <param name="getParam"></param>
+        /// <returns></returns>
+        public static string Get(string url, object getParam)
+        {
+            var param = new HttpParam
+            {
+                Url = url,
+                Method = "GET",
+                GetParam = getParam
+            };
+            return Get(param);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public static string Get(HttpParam param)
+        {
+            param.Method = "GET";
+            return RequestString(param);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public static T Get<T>(string url)
         {
-            return Get<T>(url, "");
+            var str = Get(new HttpParam()
+            {
+                Url = url,
+                Method = "GET"
+            });
+            return JsonConvert.DeserializeObject<T>(str);
         }
         /// <summary>
-        ///  Get方式获取字符串
+        /// 
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="queryString"></param>
-        /// <param name="timeOut">单位：秒</param>
-        /// <param name="encoding"></param>
-        /// <param name="cc"></param>
-        /// <param name="refer"></param>
+        /// <param name="getParam"></param>
         /// <returns></returns>
-        public static string Get(string url, string queryString = null, int timeOut = TimeOut, Encoding encoding = null, CookieContainer cc = null,
-            string refer = null)
+        public static T Get<T>(string url, object getParam)
         {
-            return new StreamReader(GetStream(url, queryString, timeOut, encoding, cc, refer)).ReadToEnd();
-        }
-        /// <summary>
-        /// Get方式获取字符串
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="param"></param>
-        /// <param name="timeOut">单位：秒</param>
-        /// <param name="encoding"></param>
-        /// <param name="cc"></param>
-        /// <param name="refer"></param>
-        /// <returns></returns>
-        public static string Get(string url, HttpParam param = null,
-           int timeOut = TimeOut, Encoding encoding = null, CookieContainer cc = null, string refer = null)
-        {
-            return Get(url, FormatData(param), timeOut, encoding, cc, refer);
+            var param = new HttpParam
+            {
+                Url = url,
+                Method = "GET",
+                GetParam = getParam
+            };
+            var str = Get(param);
+            return JsonConvert.DeserializeObject<T>(str);
         }
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="url"></param>
         /// <param name="param"></param>
-        /// <param name="timeOut">单位：秒</param>
-        /// <param name="encoding"></param>
-        /// <param name="cc"></param>
-        /// <param name="refer"></param>
         /// <returns></returns>
-        public static T Get<T>(string url, HttpParam param = null,
-           int timeOut = TimeOut, Encoding encoding = null, CookieContainer cc = null, string refer = null)
+        public static T Get<T>(HttpParam param)
         {
-            var str = Get(url, param, timeOut, encoding, cc, refer);
+            var str = Get(param);
             return JsonConvert.DeserializeObject<T>(str);
-            //return JsonHelper.Deserialize<T>(str);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="url"></param>
-        /// <param name="queryString"></param>
-        /// <param name="timeOut">单位秒</param>
-        /// <param name="encoding"></param>
-        /// <param name="cc"></param>
-        /// <param name="refer"></param>
-        /// <returns></returns>
-        public static T Get<T>(string url, string queryString = null, int timeOut = TimeOut, Encoding encoding = null, CookieContainer cc = null,
-            string refer = null)
-        {
-            var str = Get(url, queryString, timeOut, encoding, cc, refer);
-            return JsonConvert.DeserializeObject<T>(str);
-            //return JsonHelper.Deserialize<T>(str);
         }
         #endregion
 
         #region Post 请求
         /// <summary>
-        /// Post方式获取响应流
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="param"></param>
-        /// <param name="timeOut">单位：秒</param>
-        /// <param name="encoding"></param>
-        /// <param name="cc"></param>
-        /// <param name="refer"></param>
-        /// <returns></returns>
-        public static Stream PostStream(string url, string param = null, int timeOut = TimeOut, Encoding encoding = null, CookieContainer cc = null, string refer = null)
-        {
-            var r = CreateRequest(url);
-            r.Timeout = timeOut * 1000;
-            r.UserAgent = UserAgent;
-            r.Method = "POST";
-            r.Referer = refer;
-            r.CookieContainer = cc;
-            r.ContentType = ContentType;
-            if (param != null)
-            {
-                var bs = (encoding ?? DefaultEncoding).GetBytes(param);
-                r.ContentLength = bs.Length;
-                var stream = r.GetRequestStream();
-                stream.Write(bs, 0, bs.Length);
-                stream.Flush();
-                stream.Close();
-            }
-            var rep = r.GetResponse();
-            return rep.GetResponseStream();
-        }
-        /// <summary>
-        /// 以post方式提交，将响应编码为字串。
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="param"></param>
-        /// <param name="getParam"></param>
-        /// <param name="timeOut">单位：秒</param>
-        /// <param name="encoding"></param>
-        /// <param name="cc"></param>
-        /// <param name="refer"></param>
-        /// <returns></returns>
-        public static string Post(string url, HttpParam param = null, HttpParam getParam = null, int timeOut = TimeOut, Encoding encoding = null, CookieContainer cc = null, string refer = null)
-        {
-            var urlt = string.Format("{0}{1}", url, getParam == null ? "" : string.Format("?{0}", getParam.Format()));
-            return Post(urlt, FormatData(param),null, timeOut, encoding, cc, refer);
-        }
-        public static T Post<T>(string url, HttpParam param = null, HttpParam getParam = null, int timeOut = TimeOut, Encoding encoding = null, CookieContainer cc = null, string refer = null)
-        {
-            var str = Post(url, param, getParam, timeOut, encoding, cc, refer);
-            return JsonConvert.DeserializeObject<T>(str);
-            //return JsonHelper.Deserialize<T>(str);
-        }
-        /// <summary>
         /// 
         /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public static string Post(string url)
         {
-            return Post(url, "");
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public static T Post<T>(string url)
-        {
-            return Post<T>(url, "");
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="param"></param>
-        /// <param name="getParam"></param>
-        /// <param name="timeOut">单位</：秒param>
-        /// <param name="encoding"></param>
-        /// <param name="cc"></param>
-        /// <param name="refer"></param>
-        /// <returns></returns>
-        public static string Post(string url, string param = null, string getParam = null, int timeOut = TimeOut, Encoding encoding = null, CookieContainer cc = null, string refer = null)
-        {
-            var urlt = String.Format("{0}{1}", url, getParam == null ? "" : string.Format("?{0}", getParam));
-            var str = new StreamReader(PostStream(urlt, param, timeOut, encoding, cc, refer), (encoding ?? DefaultEncoding)).ReadToEnd();
+            var str = Post(new HttpParam()
+            {
+                Url = url,
+                Method = "POST"
+            });
             return str;
         }
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="url"></param>
+        /// <param name="postParam"></param>
+        /// <returns></returns>
+        public static string Post(string url, object postParam)
+        {
+            var param = new HttpParam
+            {
+                Url = url,
+                Method = "POST",
+                PostParam = postParam
+            };
+            var str = Post(param);
+            return str;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="param"></param>
-        /// <param name="getParam"></param>
-        /// <param name="timeOut">单位：秒</param>
-        /// <param name="encoding"></param>
-        /// <param name="cc"></param>
-        /// <param name="refer"></param>
         /// <returns></returns>
-        public static T Post<T>(string url, string param = null, string getParam = null, int timeOut = TimeOut, Encoding encoding = null, CookieContainer cc = null, string refer = null)
+        public static string Post(HttpParam param)
         {
-            var str = Post(url, param, getParam, timeOut, encoding, cc, refer);
-            return JsonConvert.DeserializeObject<T>(str);
-            //return JsonHelper.Deserialize<T>(str);
+            param.Method = "POST";
+            var str = RequestString(param);
+            return str;
         }
-        #endregion
-        
-        #region Common
-        /// <summary>
-        /// 创建一个请求
-        /// </summary>
-        public static HttpWebRequest CreateRequest(string url)
-        {
-            var r = WebRequest.Create(url) as HttpWebRequest;
-            return r;
-        }
-        private static string FormatData(IEnumerable<KeyValuePair<string, object>> data)
-        {
-            return new HttpParam(data).Format();
-        }
-        
-        #endregion
 
         /// <summary>
-        /// 上传文件。formData参数附加到url
+        /// 
         /// </summary>
-        public static string Upload(string url, HttpParam formData, string filePath)
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static T Post<T>(string url)
         {
-            var urlt = String.Format("{0}?{1}", url, formData == null ? "" : formData.Format());
-            var data = new WebClient().UploadFile(urlt, "POST", filePath);
-            return Encoding.UTF8.GetString(data);
+            var str = Post(new HttpParam()
+            {
+                Url = url,
+                Method = "POST"
+            });
+            return JsonConvert.DeserializeObject<T>(str);
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="timeOut">单位：秒</param>
-        /// <param name="encoding"></param>
-        /// <param name="cc"></param>
-        /// <param name="refer"></param>
+        /// <param name="postParam"></param>
         /// <returns></returns>
-        public static HttpStatusCode HeadHttpCode(string url, string data = null, int timeOut = TimeOut, Encoding encoding = null, CookieContainer cc = null, string refer = null)
+        public static T Post<T>(string url, object postParam)
         {
-            try
+            var param = new HttpParam
             {
-                var r = CreateRequest(url);
-                r.Timeout = timeOut;
-                r.UserAgent = UserAgent;
-                r.Method = "HEAD";
-                r.Referer = refer;
-                r.CookieContainer = cc;
-                var httpWebResponse = r.GetResponse() as HttpWebResponse;
-                if (httpWebResponse != null) return httpWebResponse.StatusCode;
-                return HttpStatusCode.ExpectationFailed;
-            }
-            catch
-            {
-                return HttpStatusCode.ExpectationFailed;
-            }
-        }
-
-        
-    }
-    /// <summary>
-    /// 
-    /// </summary>
-    public class HttpParam : Dictionary<string, object>
-    {
-        public HttpParam()
-        {
+                Url = url,
+                Method = "POST",
+                PostParam = postParam
+            };
+            var str = Post(param);
+            return JsonConvert.DeserializeObject<T>(str);
         }
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="data"></param>
-        public HttpParam(IEnumerable<KeyValuePair<string, object>> data)
-        {
-            foreach (var keyValuePair in data)
-            {
-                Add(keyValuePair.Key, keyValuePair.Value);
-            }
-        }
-        /// <summary>
-        /// 转换为http form格式字符串
-        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="param"></param>
         /// <returns></returns>
-        public virtual string Format()
+        public static T Post<T>(HttpParam param)
         {
-            var lst = this.Select(e => String.Format("{0}={1}", e.Key, Uri.EscapeDataString(Convert.ToString(e.Value))));
-            return String.Join("&", lst);
+            param.Method = "POST";
+            var str = Post(param);
+            return JsonConvert.DeserializeObject<T>(str);
         }
+        private static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
+        {
+            return true;
+        }
+        #endregion
     }
 }

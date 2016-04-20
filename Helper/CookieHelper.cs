@@ -29,7 +29,7 @@ namespace Dos.Common
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cookieName"></param>
+        /// <Param name="cookieName"></Param>
         public static void Remove(string cookieName)
         {
             HttpCookie cookie = HttpContext.Current.Request.Cookies[cookieName];
@@ -49,7 +49,7 @@ namespace Dos.Common
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cookieName"></param>
+        /// <Param name="cookieName"></Param>
         /// <returns></returns>
         public static string Get(string cookieName)
         {
@@ -58,8 +58,8 @@ namespace Dos.Common
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="fatherCookieName"></param>
-        /// <param name="cookieName"></param>
+        /// <Param name="fatherCookieName"></Param>
+        /// <Param name="cookieName"></Param>
         /// <returns></returns>
         public static string Get(string fatherCookieName, string cookieName)
         {
@@ -94,9 +94,9 @@ namespace Dos.Common
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cookieName"></param>
-        /// <param name="cookieValue"></param>
-        /// <param name="expires">设置cookie过期时间，单位：秒。</param>
+        /// <Param name="cookieName"></Param>
+        /// <Param name="cookieValue"></Param>
+        /// <Param name="expires">设置cookie过期时间，单位：秒。</Param>
         public static void Set(string cookieName, string cookieValue, int? expires)
         {
             Set(cookieName, cookieValue, expires, null, null, null, null);

@@ -30,8 +30,8 @@ namespace Dos.Common
         /// <summary>
         /// 添加缓存 (绝对有效期)
         /// </summary>
-        /// <param name="cacheKey">缓存键值</param>
-        /// <param name="cacheValue">缓存内容</param>
+        /// <Param name="cacheKey">缓存键值</Param>
+        /// <Param name="cacheValue">缓存内容</Param>
         public static void Set(string cacheKey, object cacheValue)
         {
             Set(cacheKey, cacheValue, _timeOut);
@@ -40,9 +40,9 @@ namespace Dos.Common
         /// <summary>
         /// 添加缓存 (绝对有效期)
         /// </summary>
-        /// <param name="cacheKey">缓存键值</param>
-        /// <param name="cacheValue">缓存内容</param>
-        /// <param name="timeout">绝对有效期（单位: 秒）</param>
+        /// <Param name="cacheKey">缓存键值</Param>
+        /// <Param name="cacheValue">缓存内容</Param>
+        /// <Param name="timeout">绝对有效期（单位: 秒）</Param>
         public static void Set(string cacheKey, object cacheValue, int timeout)
         {
 
@@ -72,8 +72,8 @@ namespace Dos.Common
         /// <summary>
         /// 添加缓存 (相对有效期)
         /// </summary>
-        /// <param name="cacheKey">缓存键值</param>
-        /// <param name="cacheValue">缓存内容</param>
+        /// <Param name="cacheKey">缓存键值</Param>
+        /// <Param name="cacheValue">缓存内容</Param>
         public static void AddCacheSlidingExpiration(string cacheKey, object cacheValue)
         {
             AddCacheSlidingExpiration(cacheKey, cacheValue, _timeOut);
@@ -82,9 +82,9 @@ namespace Dos.Common
         /// <summary>
         /// 添加缓存 (相对有效期)
         /// </summary>
-        /// <param name="cacheKey">缓存键值</param>
-        /// <param name="cacheValue">缓存内容</param>
-        /// <param name="timeout">相对过期时间 (单位: 秒)</param>
+        /// <Param name="cacheKey">缓存键值</Param>
+        /// <Param name="cacheValue">缓存内容</Param>
+        /// <Param name="timeout">相对过期时间 (单位: 秒)</Param>
         public static void AddCacheSlidingExpiration(string cacheKey, object cacheValue, int timeout)
         {
             if (string.IsNullOrEmpty(cacheKey))
@@ -114,9 +114,9 @@ namespace Dos.Common
         /// <summary>
         /// 添加缓存 (文件依赖)
         /// </summary>
-        /// <param name="cacheKey">缓存键值</param>
-        /// <param name="cacheValue">缓存内容</param>
-        /// <param name="filenames">缓存依赖的文件或目录</param>
+        /// <Param name="cacheKey">缓存键值</Param>
+        /// <Param name="cacheValue">缓存内容</Param>
+        /// <Param name="filenames">缓存依赖的文件或目录</Param>
         public static void AddCacheFilesDependency(string cacheKey, object cacheValue, params string[] filenames)
         {
             CacheDependency dep = new CacheDependency(filenames, DateTime.Now);
@@ -127,10 +127,10 @@ namespace Dos.Common
         /// <summary>
         /// 添加缓存 (文件依赖)
         /// </summary>
-        /// <param name="cacheKey">缓存键值</param>
-        /// <param name="cacheValue">缓存内容</param>
-        /// <param name="timeout">绝对过期时间 （单位：秒）</param>
-        /// <param name="dep">缓存依赖</param>
+        /// <Param name="cacheKey">缓存键值</Param>
+        /// <Param name="cacheValue">缓存内容</Param>
+        /// <Param name="timeout">绝对过期时间 （单位：秒）</Param>
+        /// <Param name="dep">缓存依赖</Param>
         public static void AddCacheDependency(string cacheKey, object cacheValue, int timeout, CacheDependency dep)
         {
             if (string.IsNullOrEmpty(cacheKey))
@@ -160,9 +160,9 @@ namespace Dos.Common
         /// <summary>
         /// 添加缓存 (一组键值依赖)
         /// </summary>
-        /// <param name="cacheKey">缓存键值</param>
-        /// <param name="cacheValue">缓存内容</param>
-        /// <param name="cachekeys">一组缓存键，此改变缓存也失效</param>
+        /// <Param name="cacheKey">缓存键值</Param>
+        /// <Param name="cacheValue">缓存内容</Param>
+        /// <Param name="cachekeys">一组缓存键，此改变缓存也失效</Param>
         public static void AddCacheKeysDependency(string cacheKey, object cacheValue, string[] cachekeys)
         {
 
@@ -176,9 +176,9 @@ namespace Dos.Common
         /// <summary>
         /// 缓存删除的委托实例
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="val"></param>
-        /// <param name="reason"></param>
+        /// <Param name="key"></Param>
+        /// <Param name="val"></Param>
+        /// <Param name="reason"></Param>
         private static void onRemove(string key, object val, CacheItemRemovedReason reason)
         {
             //switch (reason)
@@ -202,7 +202,7 @@ namespace Dos.Common
         /// <summary>
         /// 删除缓存
         /// </summary>
-        /// <param name="cacheKey">缓存键值</param>
+        /// <Param name="cacheKey">缓存键值</Param>
         public static void Remove(string cacheKey)
         {
             if (!string.IsNullOrEmpty(cacheKey))
@@ -211,9 +211,9 @@ namespace Dos.Common
 
 
         /// <summary>
-        /// 获取缓存
+        /// 获取缓存。若没有设置过传入的cacheKey，则返回null
         /// </summary>
-        /// <param name="cacheKey">对象的关键字</param>
+        /// <Param name="cacheKey">对象的关键字</Param>
         /// <returns></returns>
         public static object Get(string cacheKey)
         {

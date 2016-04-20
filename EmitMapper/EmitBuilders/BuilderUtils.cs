@@ -14,8 +14,8 @@ namespace EmitMapper.EmitBuilders
 		/// <summary>
 		/// Copies an argument to local variable
 		/// </summary>
-		/// <param name="loc"></param>
-		/// <param name="argIndex"></param>
+		/// <Param name="loc"></Param>
+		/// <Param name="argIndex"></Param>
 		/// <returns></returns>
 		public static IAstNode InitializeLocal(LocalBuilder loc, int argIndex)
 		{

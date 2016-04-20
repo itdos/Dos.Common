@@ -20,9 +20,9 @@ namespace Dos.Common
         /// <summary>
         /// 记录调试日志
         /// </summary>
-        /// <param name="content"></param>
-        /// <param name="filePrefixName"></param>
-        /// <param name="path">格式：D:\\File\\Logs\\</param>
+        /// <Param name="content">内容。如需换行可使用：\r\n</Param>
+        /// <Param name="filePrefixName"></Param>
+        /// <Param name="path">格式：D:\\File\\Logs\\</Param>
         public static void Debug(string content, string filePrefixName = null, string path = null)
         {
             Write(LogHelperType.debug, content, filePrefixName, path);
@@ -30,9 +30,9 @@ namespace Dos.Common
         /// <summary>
         /// 记录错误日志
         /// </summary>
-        /// <param name="content"></param>
-        /// <param name="filePrefixName"></param>
-        /// <param name="path">格式：D:\\File\\Logs\\</param>
+        /// <Param name="content">内容。如需换行可使用：\r\n</Param>
+        /// <Param name="filePrefixName"></Param>
+        /// <Param name="path">格式：D:\\File\\Logs\\</Param>
         public static void Error(string content, string filePrefixName = null, string path = null)
         {
             Write(LogHelperType.error, content, filePrefixName, path);
@@ -40,10 +40,10 @@ namespace Dos.Common
         /// <summary>
         /// filePrefixName是文件名前缀，最好用中文，方便在程序Logs文件下查看。
         /// </summary>
-        /// <param name="content"></param>
-        /// <param name="filePrefixName"></param>
-        /// <param name="path"></param>
-        /// <param name="logtype"></param>
+        /// <Param name="content">内容。如需换行可使用：\r\n</Param>
+        /// <Param name="filePrefixName"></Param>
+        /// <Param name="path"></Param>
+        /// <Param name="logtype"></Param>
         private static void Write(LogHelperType logtype, string content, string filePrefixName = null, string path = null)
         {
             try

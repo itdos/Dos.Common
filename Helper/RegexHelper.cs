@@ -1,7 +1,7 @@
 ﻿#region << 版 本 注 释 >>
 /****************************************************
 * 文 件 名：RegExpHelper
-* Copyright(c) 青之软件
+* Copyright(c) www.ITdos.com
 * CLR 版本: 4.0.30319.17929
 * 创 建 人：周浩
 * 电子邮箱：admin@itdos.com
@@ -155,7 +155,7 @@ namespace Dos.Common
         /// <summary>
         /// 判断是否是mac地址
         /// </summary>
-        /// <param name="MAC">mac地址字符串</param>
+        /// <Param name="MAC">mac地址字符串</Param>
         /// <returns></returns>
         public static bool IsMacAddress(string MAC)
         {
@@ -179,8 +179,8 @@ namespace Dos.Common
         /// <summary>
         /// 按字节数截取指定字节
         /// </summary>
-        /// <param name="str">需要获取的字符串</param>
-        /// <param name="length">获取的字节长度</param>
+        /// <Param name="str">需要获取的字符串</Param>
+        /// <Param name="length">获取的字节长度</Param>
         /// <returns></returns>
         public static string SubString(string str, int length)
         {
