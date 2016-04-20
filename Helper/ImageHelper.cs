@@ -1,4 +1,19 @@
-﻿using System;
+﻿#region << 版 本 注 释 >>
+/****************************************************
+* 文 件 名：EncryptHelper
+* Copyright(c) www.ITdos.com
+* CLR 版本: 4.0.30319.17929
+* 创 建 人：ITdos
+* 电子邮箱：admin@itdos.com
+* 创建日期：2010/04/01 11:00:49
+* 文件描述：
+******************************************************
+* 修 改 人：
+* 修改日期：
+* 备注描述：
+*******************************************************/
+#endregion
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
