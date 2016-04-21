@@ -3,7 +3,7 @@
 	
 /*-----------------------------------------------------------------------------------------------*/
 
-2016-04-20 Dos.Common（v1.0.6.0）
+2016-04-20 Dos.Common（v1.0.6.1）
 	*）优化MsmqHelper.cs。
 	*）新增MsmqHelper.cs，微软消息队列帮助类。
 	*）重写HttpHelper.cs。见说明文档：http://ITdos.com/Dos/Common/Index.html

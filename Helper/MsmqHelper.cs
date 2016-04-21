@@ -27,51 +27,6 @@ namespace Dos.Common
         private MessageQueue _sendQueue;
         private MessageQueue _receiveQueue;
 
-        #region 参数类
-        /// <summary>
-        /// 参数
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        public class MsmqParam<T> : MsmqParam where T : class
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            public T Message { get; set; }
-            /// <summary>
-            /// callBack
-            /// </summary>
-            public Action<T> CallBack { get; set; }
-        }
-        /// <summary>
-        /// 参数
-        /// </summary>
-        public class MsmqParam
-        {
-            private string _queueName = "ITdosQueue";
-            /// <summary>
-            /// 队列名称
-            /// </summary>
-            public string QueueName
-            {
-                get { return _queueName; }
-                set { _queueName = value; }
-            }
-            /// <summary>
-            /// 队列名称
-            /// </summary>
-            private string _queuePath = @".\Private$\";
-            /// <summary>
-            /// 路径
-            /// </summary>
-            public string QueuePath
-            {
-                get { return _queuePath; }
-                set { _queuePath = value; }
-            }
-        }
-        #endregion
-
         #region 私有
         /// <summary>
         /// 初始化
@@ -226,5 +181,48 @@ namespace Dos.Common
         }
         #endregion
     }
-    
+    #region 参数类
+    /// <summary>
+    /// 参数
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class MsmqParam<T> : MsmqParam where T : class
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public T Message { get; set; }
+        /// <summary>
+        /// callBack
+        /// </summary>
+        public Action<T> CallBack { get; set; }
+    }
+    /// <summary>
+    /// 参数
+    /// </summary>
+    public class MsmqParam
+    {
+        private string _queueName = "ITdosQueue";
+        /// <summary>
+        /// 队列名称
+        /// </summary>
+        public string QueueName
+        {
+            get { return _queueName; }
+            set { _queueName = value; }
+        }
+        /// <summary>
+        /// 队列名称
+        /// </summary>
+        private string _queuePath = @".\Private$\";
+        /// <summary>
+        /// 路径
+        /// </summary>
+        public string QueuePath
+        {
+            get { return _queuePath; }
+            set { _queuePath = value; }
+        }
+    }
+    #endregion
 }
