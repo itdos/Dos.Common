@@ -3,7 +3,7 @@
 * 文 件 名：IPHelper
 * Copyright(c) www.ITdos.com
 * CLR 版本: 4.0.30319.17929
-* 创 建 人：周浩
+* 创 建 人：ITdos
 * 电子邮箱：admin@itdos.com
 * 创建日期：2014/10/24 9:46:55
 * 文件描述：

@@ -3,10 +3,13 @@
 	
 /*-----------------------------------------------------------------------------------------------*/
 
-2016-04-20 Dos.Common（v1.0.6.1）
+2016-04-27 Dos.Common（v1.0.6.8）
+	*）不再依赖json.net，现在内置fastJSON，并优化fastJSON。说明见：http://www.itdos.com/CSharp/201604/27111005613.html
+	*）优化RegexHelper.cs。
+	*）优化FileHelper.cs。
 	*）优化MsmqHelper.cs。
-	*）新增MsmqHelper.cs，微软消息队列帮助类。
-	*）重写HttpHelper.cs。见说明文档：http://ITdos.com/Dos/Common/Index.html
+	*）新增MsmqHelper.cs，微软消息队列帮助类。说明见：http://www.itdos.com/CSharp/201604/20153855656.html
+	*）重写HttpHelper.cs。见说明文档：http://www.itdos.com/CSharp/201604/19195109097.html
 	*）重写大量代码，不再兼容v1.0。
 
 /*-----------------------------------------------------------------------------------------------*/

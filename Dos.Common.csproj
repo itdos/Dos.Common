@@ -32,10 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\其它\Hxj.Data Source(1.7.4.7)\OrmTest\OrmTest\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -170,6 +166,15 @@
     <Compile Include="EmitMapper\Utils\MiscUtils.cs" />
     <Compile Include="EmitMapper\Utils\ReflectionUtils.cs" />
     <Compile Include="EmitMapper\Utils\ThreadSaveCache.cs" />
+    <Compile Include="JsonHelper\dynamic.cs" />
+    <Compile Include="JsonHelper\Formatter.cs" />
+    <Compile Include="JsonHelper\Getters.cs" />
+    <Compile Include="JsonHelper\JSON.cs" />
+    <Compile Include="JsonHelper\JsonParser.cs" />
+    <Compile Include="JsonHelper\JsonProp.cs" />
+    <Compile Include="JsonHelper\JsonSerializer.cs" />
+    <Compile Include="JsonHelper\Reflection.cs" />
+    <Compile Include="JsonHelper\SafeDictionary.cs" />
     <Compile Include="Helper\CacheHelper.cs" />
     <Compile Include="Helper\CmdHelper.cs" />
     <Compile Include="Helper\ConvertHelper.cs" />
@@ -194,11 +199,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE" />
-    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resource\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Dos.Common更新日志.txt" />
   </ItemGroup>

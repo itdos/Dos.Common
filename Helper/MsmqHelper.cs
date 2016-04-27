@@ -116,19 +116,52 @@ namespace Dos.Common
             _sendQueue.Send(envelope);
         }
         /// <summary>
+        /// 发送消息并异步接收一个消息。
+        /// </summary>
+        public void SendAndReceiveAsyn<T>(T message, Action<T> callBack, bool loop = false) where T : class
+        {
+            Init<T>(new MsmqParam<T>());
+            var envelope = new Message(message) { Recoverable = false };
+            _sendQueue.Send(envelope);
+            ReceiveAsyn(callBack, loop);
+        }
+        /// <summary>
         /// 异步接收消息。
         /// </summary>
-        /// <param name="callBack"></param>
-        public void ReceiveAsyn<T>(Action<T> callBack) where T : class
+        public void ReceiveAsyn<T>(Action<T> callBack, bool loop = false) where T : class
         {
             Init<T>(new MsmqParam<T>());
             _receiveQueue.ReceiveCompleted += (sender, args) =>
             {
                 var result = args.Message.Body as T;
                 callBack(result);
-                _receiveQueue.BeginReceive();
+                if (loop)
+                {
+                    _receiveQueue.BeginReceive();
+                }
             };
             _receiveQueue.BeginReceive();
+        }
+        /// <summary>
+        /// 异步接收消息，常驻内存，一直等待接收新的队列并触发回调函数。
+        /// </summary>
+        /// <param name="callBack"></param>
+        public void ReceiveAsynLoop<T>(Action<T> callBack) where T : class
+        {
+            ReceiveAsyn(callBack, true);
+        }
+        /// <summary>
+        /// 接收消息。
+        /// </summary>
+        public T Receive<T>() where T : class
+        {
+            Init<T>(new MsmqParam<T>());
+            var message = _receiveQueue.Receive();
+            if (message != null)
+            {
+                return message.Body as T;
+            }
+            return null;
         }
         #endregion
 
@@ -144,6 +177,18 @@ namespace Dos.Common
             NewMessageQueue<T>(path).Send(envelope);
         }
         /// <summary>
+        /// 发送消息并异步接收一个消息。必传Message。
+        /// </summary>
+        public static void SendAndReceiveAsyn<T>(MsmqParam<T> param, Action<T> callBack, bool loop = false) where T : class
+        {
+            var path = param.QueuePath + param.QueueName;
+            CreateMessageQueue(path);
+            var envelope = new Message(param.Message) { Recoverable = false };
+            NewMessageQueue<T>(path).Send(envelope);
+            param.CallBack = callBack;
+            ReceiveAsyn(param, loop);
+        }
+        /// <summary>
         /// 发送消息。必传QueueName、Message。
         /// </summary>
         public static void Send<T>(string queueName, T message) where T : class
@@ -154,9 +199,21 @@ namespace Dos.Common
             Send(param);
         }
         /// <summary>
+        /// 发送消息。必传QueueName、Message。
+        /// </summary>
+        public static void SendAndReceiveAsyn<T>(string queueName, T message, Action<T> callBack, bool loop = false) where T : class
+        {
+            var param = new MsmqParam<T>();
+            param.QueueName = queueName;
+            param.Message = message;
+            Send(param);
+            param.CallBack = callBack;
+            ReceiveAsyn(param, loop);
+        }
+        /// <summary>
         /// 异步接收消息。必传CallBack
         /// </summary>
-        public static void ReceiveAsyn<T>(MsmqParam<T> param) where T : class
+        public static void ReceiveAsyn<T>(MsmqParam<T> param, bool loop = false) where T : class
         {
             var path = param.QueuePath + param.QueueName;
             CreateMessageQueue(path);
@@ -165,7 +222,10 @@ namespace Dos.Common
             {
                 var result = args.Message.Body as T;
                 param.CallBack(result);
-                receiveQueue.BeginReceive();
+                if (loop)
+                {
+                    receiveQueue.BeginReceive();
+                }
             };
             receiveQueue.BeginReceive();
         }
@@ -178,6 +238,40 @@ namespace Dos.Common
             param.QueueName = queueName;
             param.CallBack = callBack;
             ReceiveAsyn(param);
+        }
+        /// <summary>
+        /// 异步接收消息。必传QueueName、CallBack。常驻内存，一直等待接收新的队列并触发回调函数。
+        /// </summary>
+        public static void ReceiveAsynLoop<T>(string queueName, Action<T> callBack) where T : class
+        {
+            var param = new MsmqParam<T>();
+            param.QueueName = queueName;
+            param.CallBack = callBack;
+            ReceiveAsyn(param, true);
+        }
+        /// <summary>
+        /// 接收消息
+        /// </summary>
+        public static T Receive<T>(MsmqParam<T> param) where T : class
+        {
+            var path = param.QueuePath + param.QueueName;
+            CreateMessageQueue(path);
+            var receiveQueue = NewMessageQueue<T>(path);
+            var message = receiveQueue.Receive();
+            if (message != null)
+            {
+                return message.Body as T;
+            }
+            return null;
+        }
+        /// <summary>
+        /// 接收消息。必传QueueName
+        /// </summary>
+        public static T Receive<T>(string queueName) where T : class
+        {
+            var param = new MsmqParam<T>();
+            param.QueueName = queueName;
+            return Receive(param);
         }
         #endregion
     }

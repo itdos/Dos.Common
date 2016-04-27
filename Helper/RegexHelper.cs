@@ -3,7 +3,7 @@
 * 文 件 名：RegExpHelper
 * Copyright(c) www.ITdos.com
 * CLR 版本: 4.0.30319.17929
-* 创 建 人：周浩
+* 创 建 人：ITdos
 * 电子邮箱：admin@itdos.com
 * 创建日期：2014/11/3 14:42:36
 * 文件描述：
@@ -22,17 +22,25 @@ using System.Text.RegularExpressions;
 
 namespace Dos.Common
 {
+    /// <summary>
+    /// 正则帮助类。含大量常用正则表达式。
+    /// </summary>
     public class RegexHelper
     {
-        public static bool IsIDNumber(string IDNumber)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static bool IsMobilePhone(string str)
         {
-            return IDNumber.Length == 18;
-            //return Regex.IsMatch(IDNumber, @"(^\d{18}$)|(^\d{15}$)");
+            return Regex.IsMatch(str, @"(^0?1[3|4|5|7|8][0-9]\d{8}$)");
         }
-        //public static bool IsMobilePhone(string str)
-        //{
-        //    return Regex.IsMatch(str, @"(^0?1[3|4|5|8][0-9]\d{8}$)");
-        //}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static bool IsBase64String(string str)
         {
             return Regex.IsMatch(str, @"[A-Za-z0-9\+\/\=]");
@@ -72,7 +80,11 @@ namespace Dos.Common
             string pattern = @"^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$";
             return Regex.IsMatch(email.Trim(), pattern);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <returns></returns>
         public static bool IsGuid(string guid)
         {
             if (string.IsNullOrEmpty(guid))
@@ -81,7 +93,11 @@ namespace Dos.Common
             }
             return Regex.IsMatch(guid, "[A-F0-9]{8}(-[A-F0-9]{4}){3}-[A-F0-9]{12}|[A-F0-9]{32}", RegexOptions.IgnoreCase);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="idCard"></param>
+        /// <returns></returns>
         public static bool IsIdCard(string idCard)
         {
             if (string.IsNullOrEmpty(idCard))
@@ -94,7 +110,11 @@ namespace Dos.Common
             }
             return ((idCard.Length == 0x12) && Regex.IsMatch(idCard, @"^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[A-Z])$", RegexOptions.IgnoreCase));
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
         public static bool IsInt(object number)
         {
             if (IsNullOrEmpty(number))
@@ -103,7 +123,11 @@ namespace Dos.Common
             }
             return IsInt(number.ToString());
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
         public static bool IsInt(string number)
         {
             if (string.IsNullOrEmpty(number))
@@ -123,12 +147,20 @@ namespace Dos.Common
             string pattern = @"^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$";
             return Regex.IsMatch(ip.Trim(), pattern);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static bool IsNullOrEmpty(object data)
         {
             return ((data == null) || (((data.GetType() == typeof(string)) && string.IsNullOrEmpty(data.ToString().Trim())) || (data.GetType() == typeof(DBNull))));
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
         public static bool IsNumber(object number)
         {
             if (IsNullOrEmpty(number))
@@ -137,7 +169,11 @@ namespace Dos.Common
             }
             return IsNumber(number.ToString());
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
         public static bool IsNumber(string number)
         {
             if (string.IsNullOrEmpty(number))
@@ -147,19 +183,23 @@ namespace Dos.Common
             decimal result = 0M;
             return decimal.TryParse(number, out result);
         }
-
-        public static bool IsURL(string strUrl)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strUrl"></param>
+        /// <returns></returns>
+        public static bool IsUrl(string strUrl)
         {
             return Regex.IsMatch(strUrl, @"^(http|https)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{1,10}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&%\$#\=~_\-]+))*$", RegexOptions.IgnoreCase);
         }
         /// <summary>
         /// 判断是否是mac地址
         /// </summary>
-        /// <Param name="MAC">mac地址字符串</Param>
+        /// <Param name="mac">mac地址字符串</Param>
         /// <returns></returns>
-        public static bool IsMacAddress(string MAC)
+        public static bool IsMacAddress(string mac)
         {
-            return Regex.IsMatch(MAC, "^([0-9A-F]{2}-){5}[0-9A-F]{2}$") || Regex.IsMatch(MAC, "^[0-9A-F]{12}$");
+            return Regex.IsMatch(mac, "^([0-9A-F]{2}-){5}[0-9A-F]{2}$") || Regex.IsMatch(mac, "^[0-9A-F]{12}$");
         }
         /// <summary>
         /// 获取字节数

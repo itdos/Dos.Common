@@ -21,7 +21,6 @@ using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace Dos.Common
 {
@@ -147,7 +146,7 @@ namespace Dos.Common
                 }
                 else
                 {
-                    postParamString = JsonConvert.SerializeObject(param.PostParam);
+                    postParamString = JSON.ToJSON(param.PostParam);
                 }
                 var bs = param.Encoding.GetBytes(postParamString);
                 r.ContentLength = bs.Length;
@@ -225,7 +224,7 @@ namespace Dos.Common
                 Url = url,
                 Method = "GET"
             });
-            return JsonConvert.DeserializeObject<T>(str);
+            return JSON.ToObject<T>(str);
         }
         /// <summary>
         /// 
@@ -242,7 +241,7 @@ namespace Dos.Common
                 GetParam = getParam
             };
             var str = Get(param);
-            return JsonConvert.DeserializeObject<T>(str);
+            return JSON.ToObject<T>(str);
         }
         /// <summary>
         /// 
@@ -253,7 +252,7 @@ namespace Dos.Common
         public static T Get<T>(HttpParam param)
         {
             var str = Get(param);
-            return JsonConvert.DeserializeObject<T>(str);
+            return JSON.ToObject<T>(str);
         }
         #endregion
 
@@ -313,7 +312,7 @@ namespace Dos.Common
                 Url = url,
                 Method = "POST"
             });
-            return JsonConvert.DeserializeObject<T>(str);
+            return JSON.ToObject<T>(str);
         }
         /// <summary>
         /// 
@@ -330,7 +329,7 @@ namespace Dos.Common
                 PostParam = postParam
             };
             var str = Post(param);
-            return JsonConvert.DeserializeObject<T>(str);
+            return JSON.ToObject<T>(str);
         }
         /// <summary>
         /// 
@@ -342,7 +341,7 @@ namespace Dos.Common
         {
             param.Method = "POST";
             var str = Post(param);
-            return JsonConvert.DeserializeObject<T>(str);
+            return JSON.ToObject<T>(str);
         }
         private static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
         {

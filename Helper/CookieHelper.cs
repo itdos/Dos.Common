@@ -3,7 +3,7 @@
 * 文 件 名：Cookie
 * Copyright(c) www.ITdos.com
 * CLR 版本: 4.0.30319.239
-* 创 建 人：周浩
+* 创 建 人：ITdos
 * 电子邮箱：admin@itdos.com
 * 创建日期：2012/1/30 星期一 16:15:22
 * 文件描述：

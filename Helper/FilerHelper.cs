@@ -16,11 +16,15 @@ namespace Dos.Common
         /// </summary>
         /// <Param name="filePath">完整路径，如D:\Temp\Temp.json</Param>
         /// <returns></returns>
-        public static string GetText(string filePath)
+        public static string Read(string filePath, Encoding encoding = null)
         {
             if (File.Exists(filePath))
             {
-              return   File.ReadAllText(filePath, Encoding.UTF8);
+                if (encoding == null)
+                {
+                    encoding = Encoding.UTF8;
+                }
+                return File.ReadAllText(filePath, encoding);
             }
             return "";
         }
@@ -30,52 +34,66 @@ namespace Dos.Common
         /// <Param name="filePath">完整路径，如D:\Temp\Temp.json</Param>
         /// <Param name="content">内容。可以\r\n换行。</Param>
         /// <returns></returns>
-        public static bool SetText(string filePath, string content)
+        public static bool Write(string filePath, string content, Encoding encoding = null)
         {
             File.Delete(filePath);
             using (var fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
             {
-                var sw = new StreamWriter(fs);
+                if (encoding == null)
+                {
+                    encoding = Encoding.UTF8;
+                }
+                var sw = new StreamWriter(fs, encoding);
                 sw.Write(content);
                 sw.Flush();
                 sw.Close();
             }
             return true;
         }
-        public static void CopyDirectory(string srcDir, string tgtDir)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fromDir"></param>
+        /// <param name="toDir"></param>
+        public static void Copy(string fromDir, string toDir)
         {
-            DirectoryInfo source = new DirectoryInfo(srcDir);
-            DirectoryInfo target = new DirectoryInfo(tgtDir);
-            CopyDirectory(source, target);
+            DirectoryInfo source = new DirectoryInfo(fromDir);
+            DirectoryInfo target = new DirectoryInfo(toDir);
+            Copy(source, target);
         }
-        public static void CopyDirectory(DirectoryInfo source, DirectoryInfo target)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        public static void Copy(DirectoryInfo from, DirectoryInfo to)
         {
-            if (target.FullName.StartsWith(source.FullName, StringComparison.CurrentCultureIgnoreCase))
+            if (to.FullName.StartsWith(from.FullName, StringComparison.CurrentCultureIgnoreCase))
             {
                 throw new Exception("父目录不能拷贝到子目录！");
             }
 
-            if (!source.Exists)
+            if (!from.Exists)
             {
                 return;
             }
 
-            if (!target.Exists)
+            if (!to.Exists)
             {
-                target.Create();
+                to.Create();
             }
 
-            FileInfo[] files = source.GetFiles();
+            FileInfo[] files = from.GetFiles();
 
             for (int i = 0; i < files.Length; i++)
             {
-                File.Copy(files[i].FullName, Path.Combine(target.FullName, files[i].Name), true);
+                File.Copy(files[i].FullName, Path.Combine(to.FullName, files[i].Name), true);
             }
-            DirectoryInfo[] dirs = source.GetDirectories();
+            DirectoryInfo[] dirs = from.GetDirectories();
 
             for (int j = 0; j < dirs.Length; j++)
             {
-                CopyDirectory(dirs[j].FullName, Path.Combine(target.FullName, dirs[j].Name));
+                Copy(dirs[j].FullName, Path.Combine(to.FullName, dirs[j].Name));
             }
         }
         /// <summary>
@@ -83,7 +101,7 @@ namespace Dos.Common
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static FileStream GetFileStream(string fileName)
+        public static FileStream ReadStream(string fileName)
         {
             FileStream fileStream = null;
             if (!string.IsNullOrEmpty(fileName) && File.Exists(fileName))

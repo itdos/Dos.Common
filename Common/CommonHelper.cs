@@ -3,7 +3,7 @@
 * 文 件 名：
 * Copyright(c) www.ITdos.com
 * CLR 版本: 4.0.30319.17929
-* 创 建 人：周浩
+* 创 建 人：ITdos
 * 电子邮箱：admin@itdos.com
 * 创建日期：2015/09/10 14:08:52
 * 文件描述：
