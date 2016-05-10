@@ -19,6 +19,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Dos.Common
 {
@@ -201,10 +202,46 @@ namespace Dos.Common
         {
             return Regex.IsMatch(mac, "^([0-9A-F]{2}-){5}[0-9A-F]{2}$") || Regex.IsMatch(mac, "^[0-9A-F]{12}$");
         }
+        ///  <summary>
+        ///  去除HTML标记  
+        ///  </summary>   
+        ///  <param name="htmlString">包括HTML的源码</param>   
+        ///  <returns>已经去除后的文字</returns>   
+        public static string RemoveHtml(string htmlString)
+        {
+            //转换成html标签
+            htmlString = Regex.Replace(htmlString, @"&(quot|#34);", "\"", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&(amp|#38);", "&", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&(lt|#60);", "<", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&(gt|#62);", ">", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&(nbsp|#160);", "  ", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&(iexcl|#161);", "\xa1", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&(cent|#162);", "\xa2", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&(pound|#163);", "\xa3", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&(copy|#169);", "\xa9", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"&#(\d+);", "", RegexOptions.IgnoreCase);
+            //删除脚本   
+            htmlString = Regex.Replace(htmlString, @"<script[^>]*?>.*?</script>", "", RegexOptions.IgnoreCase);
+            //删除HTML   
+            htmlString = Regex.Replace(htmlString, @"<(.[^>]*)>", "", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"([\r\n])[\s]+", "", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"-->", "", RegexOptions.IgnoreCase);
+            htmlString = Regex.Replace(htmlString, @"<!--.*", "", RegexOptions.IgnoreCase);
+            htmlString = htmlString.Replace("<", "");
+            htmlString = htmlString.Replace(">", "");
+            htmlString = htmlString.Replace("\r\n", "");
+            htmlString = htmlString.Replace("&nbsp", "");
+            if (HttpContext.Current != null)
+            {
+                htmlString = HttpContext.Current.Server.HtmlEncode(htmlString).Trim();
+            }
+            return htmlString;
+        }
         /// <summary>
         /// 获取字节数
         /// str：需要获取的字符串
         /// </summary>
+        [Obsolete("该方法已移至StringHelper")]
         public static int Length(string str)
         {
             int j = 0;
@@ -215,13 +252,13 @@ namespace Dos.Common
             }
             return j;
         }
-
         /// <summary>
         /// 按字节数截取指定字节
         /// </summary>
         /// <Param name="str">需要获取的字符串</Param>
         /// <Param name="length">获取的字节长度</Param>
         /// <returns></returns>
+        [Obsolete("该方法已移至StringHelper")]
         public static string SubString(string str, int length)
         {
             string result = str;

@@ -410,14 +410,20 @@ namespace Dos.Common
 
         private object ChangeType(object value, Type conversionType)
         {
+            #region by itdos.com 2016-05-04
+            var isNullOrWhiteSpace = false || (value == null || string.IsNullOrWhiteSpace(value.ToString()));
+            if (conversionType == typeof(decimal))
+                return isNullOrWhiteSpace ? (object)null : decimal.Parse(value.ToString());
+
             if (conversionType == typeof(int))
-                return (int)((long)value);
+                return isNullOrWhiteSpace ? (object)null : int.Parse(value.ToString());
 
             else if (conversionType == typeof(long))
-                return (long)value;
+                return isNullOrWhiteSpace ? (object)null : long.Parse(value.ToString());
 
             else if (conversionType == typeof(string))
-                return (string)value;
+                return isNullOrWhiteSpace ? null : value as string;//by itdos.com 2016-05-09
+            #endregion
 
             else if (conversionType.IsEnum)
                 return CreateEnum(conversionType, value);
@@ -604,9 +610,13 @@ namespace Dos.Common
 
                         switch (pi.Type)
                         {
-                            case myPropInfoType.Int: oset = (int)((long)v); break;
-                            case myPropInfoType.Long: oset = (long)v; break;
-                            case myPropInfoType.String: oset = (string)v; break;
+                            //by itdos.com
+                            //case myPropInfoType.Int: oset = (int)((long)v); break;
+                            case myPropInfoType.Decimal: oset = decimal.Parse(v.ToString()); break;
+                            case myPropInfoType.Int: oset = int.Parse(v.ToString()); break;
+                            //case myPropInfoType.Long: oset = (long)v; break;
+                            case myPropInfoType.Long: oset = long.Parse(v.ToString()); break;
+                            case myPropInfoType.String: oset = v.ToString(); break;// by itdos.com 2016-05-10
                             case myPropInfoType.Bool: oset = (bool)v; break;
                             case myPropInfoType.DateTime: oset = CreateDateTime((string)v); break;
                             case myPropInfoType.Enum: oset = CreateEnum(pi.pt, v); break;
@@ -730,6 +740,13 @@ namespace Dos.Common
 
         private DateTime CreateDateTime(string value)
         {
+            #region bi itdos.com 2015-05-01
+            DateTime dt;
+            if (DateTime.TryParse(value, out dt))
+            {
+                return dt;
+            }
+            #endregion
             bool utc = false;
             //                   0123456789012345678 9012 9/3
             // datetime format = yyyy-MM-ddTHH:mm:ss .nnn  Z

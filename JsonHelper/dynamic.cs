@@ -13,7 +13,7 @@ namespace Dos.Common
 
         public DynamicJson(string json)
         {
-            var parse = fastJSON.JSON.Parse(json);
+            var parse = Dos.Common.JSON.Parse(json);
 
             if (parse is IDictionary<string, object>)
                 _dictionary = (IDictionary<string, object>)parse;

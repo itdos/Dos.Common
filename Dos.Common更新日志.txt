@@ -2,8 +2,18 @@
 	*）
 	
 /*-----------------------------------------------------------------------------------------------*/
+2016-05-10 Dos.Common（v1.0.7.6）
+	*）修复fastJSON反序列化时int转string出错的Bug。
+	*）修复fastJSON反序列化不带引号的key出错的Bug，如反序列化[{a:"1"}]。
+	*）修复fastJSON反序列化Dictionary<string, string>时int转string出错的Bug。
+	*）RegexHelper.cs新增RemoveHtml()方法。
+	*）新增StringHelper.cs，同时将RegexHelper.cs中的Length()、SubString()移至StringHelper.cs。
+	*）修复fastJSON反序列化“空字符串”为int、long等数字类型时出错的Bug。
 
-2016-04-27 Dos.Common（v1.0.6.8）
+2016-05-03 Dos.Common（v1.0.7.0）
+	*）HttpHelper.cs增加PostFile()。
+	*）修复fastJSON反序列化"2015-5-1 9:8"此时间格式时的Bug。
+	*）修复fastJSON反序列化“string类型”为int、long等数字类型时出错的Bug。
 	*）不再依赖json.net，现在内置fastJSON，并优化fastJSON。说明见：http://www.itdos.com/CSharp/201604/27111005613.html
 	*）优化RegexHelper.cs。
 	*）优化FileHelper.cs。

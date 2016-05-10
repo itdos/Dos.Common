@@ -25,7 +25,8 @@ namespace Dos.Common
             Number,
             True,
             False,
-            Null
+            Null,
+            NoQuotes // by itdos.com 2016-05-10
         }
 
         readonly string json;
@@ -61,7 +62,51 @@ namespace Dos.Common
                     case Token.Curly_Close:
                         ConsumeToken();
                         return table;
+                    #region by itdos.com 2016-05-10
+                    case Token.NoQuotes:
+                        {
+                            // name
+                            string name = "";//ParseString();
 
+                            index--;
+                            ConsumeToken();
+                            s.Length = 0;
+                            int runIndex = -1;
+                            while (index < json.Length)
+                            {
+                                var c = json[index++];
+                                if (c == ' ' || c == ':')
+                                {
+                                    if (runIndex != -1)
+                                    {
+                                        if (s.Length == 0)
+                                            name = json.Substring(runIndex, index - runIndex - 1);
+
+                                        s.Append(json, runIndex, index - runIndex - 1);
+                                    }
+                                    name = s.ToString();
+                                    index--;
+                                    break;
+                                }
+                                if (c != '\\')
+                                {
+                                    if (runIndex == -1)
+                                        runIndex = index - 1;
+                                    continue;
+                                }
+                            }
+                            //index++;
+                            // :
+                            if (NextToken() != Token.Colon)
+                            {
+                                throw new Exception("Expected colon at index " + index);
+                            }
+                            // value
+                            object value = ParseValue();
+                            table[name] = value;
+                        }
+                        break;
+                    #endregion
                     default:
                         {
                             // name
@@ -304,7 +349,7 @@ namespace Dos.Common
                 return double.Parse(s, NumberFormatInfo.InvariantInfo);
             }
             long num;
-            #region 解决ulong反序列化报错 by itdos.com 2016-04-26
+            #region by itdos.com 2016-04-26
             var str = json.Substring(startIndex, index - startIndex).TrimStart('-');
             if (str.Length >= 19)
             {
@@ -365,6 +410,8 @@ namespace Dos.Common
 
             switch (c)
             {
+                default:
+                    return Token.NoQuotes;
                 case '{':
                     return Token.Curly_Open;
 

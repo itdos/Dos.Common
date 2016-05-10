@@ -21,6 +21,8 @@ using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using EmitMapper.AST.Nodes;
+using System.Web;
 
 namespace Dos.Common
 {
@@ -84,6 +86,68 @@ namespace Dos.Common
                 Method = "POST",
                 GetParam = postParam
             });
+        }
+        /// <summary>
+        /// 文件上传至远程服务器。传入：Url、CookieContainer、PostParam、PostedFile
+        /// </summary>
+        public static string PostFile(HttpParam param)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(param.Url);
+            request.CookieContainer = param.CookieContainer;
+            request.Method = "POST";
+            request.Timeout = 20000;
+            request.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            request.KeepAlive = true;
+            var boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
+            var boundaryBytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
+            request.ContentType = "multipart/form-data; boundary=" + boundary;
+            var formdataTemplate = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"{0}\";\r\n\r\n{1}";
+            var buffer = new byte[param.PostedFile.ContentLength];
+            param.PostedFile.InputStream.Read(buffer, 0, buffer.Length);
+            var strHeader = "Content-Disposition:application/x-www-form-urlencoded; name=\"{0}\";filename=\"{1}\"\r\nContent-Type:{2}\r\n\r\n";
+            strHeader = string.Format(strHeader,
+                                     "filedata",
+                                     param.PostedFile.FileName,
+                                     param.PostedFile.ContentType);
+            var byteHeader = ASCIIEncoding.ASCII.GetBytes(strHeader);
+            try
+            {
+                using (var stream = request.GetRequestStream())
+                {
+                    if (param.PostParam != null)
+                    {
+                        var postParamString = "";
+                        if (param.PostParam is string)
+                        {
+                            postParamString = param.PostParam.ToString();
+                        }
+                        else
+                        {
+                            postParamString = JSON.ToJSON(param.PostParam);
+                        }
+                        var bs = param.Encoding.GetBytes(postParamString);
+                        stream.Write(bs, 0, bs.Length);
+                    }
+                    stream.Write(boundaryBytes, 0, boundaryBytes.Length);
+                    stream.Write(byteHeader, 0, byteHeader.Length);
+                    stream.Write(buffer, 0, buffer.Length);
+                    var trailer = Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
+                    stream.Write(trailer, 0, trailer.Length);
+                    stream.Close();
+                }
+                var response = (HttpWebResponse)request.GetResponse();
+                var result = "";
+                using (var reader = new StreamReader(response.GetResponseStream()))
+                {
+                    result = reader.ReadToEnd();
+                }
+                response.Close();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
         }
         /// <summary>
         /// 获取响应流

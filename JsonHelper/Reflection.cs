@@ -21,6 +21,8 @@ namespace Dos.Common
 
     internal enum myPropInfoType
     {
+        //by itdos.com 2016-05-04
+        Decimal,
         Int,
         Long,
         String,
