@@ -2,12 +2,16 @@
 	*）
 	
 /*-----------------------------------------------------------------------------------------------*/
-2016-05-10 Dos.Common（v1.0.7.6）
+2016-05-12 Dos.Common（v1.0.8.0）
+	*）将大师RegexHelper.cs、StringHelper.cs中的方法加入到通用扩展中去，使用法变得更简单，如字符串删除html标签：param.Content.DosRemoveHtml()。
+	*）修改所有扩展方法名均以“Dos”开头。
+	*）新增几个string扩展：DosTrim()、DosTrimStart()、DosTrimEnd()。
+	*）优化LogHelper.cs。
 	*）修复fastJSON反序列化时int转string出错的Bug。
 	*）修复fastJSON反序列化不带引号的key出错的Bug，如反序列化[{a:"1"}]。
 	*）修复fastJSON反序列化Dictionary<string, string>时int转string出错的Bug。
 	*）RegexHelper.cs新增RemoveHtml()方法。
-	*）新增StringHelper.cs，同时将RegexHelper.cs中的Length()、SubString()移至StringHelper.cs。
+	*）新增StringHelper.cs。
 	*）修复fastJSON反序列化“空字符串”为int、long等数字类型时出错的Bug。
 
 2016-05-03 Dos.Common（v1.0.7.0）

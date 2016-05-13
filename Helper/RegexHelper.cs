@@ -205,10 +205,14 @@ namespace Dos.Common
         ///  <summary>
         ///  去除HTML标记  
         ///  </summary>   
-        ///  <param name="htmlString">包括HTML的源码</param>   
+        ///  <param name="htmlString">包括HTML的源码</param>
         ///  <returns>已经去除后的文字</returns>   
         public static string RemoveHtml(string htmlString)
         {
+            if (string.IsNullOrWhiteSpace(htmlString))
+            {
+                return htmlString;
+            }
             //转换成html标签
             htmlString = Regex.Replace(htmlString, @"&(quot|#34);", "\"", RegexOptions.IgnoreCase);
             htmlString = Regex.Replace(htmlString, @"&(amp|#38);", "&", RegexOptions.IgnoreCase);
@@ -241,9 +245,12 @@ namespace Dos.Common
         /// 获取字节数
         /// str：需要获取的字符串
         /// </summary>
-        [Obsolete("该方法已移至StringHelper")]
         public static int Length(string str)
         {
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return 0;
+            }
             int j = 0;
             CharEnumerator ce = str.GetEnumerator();
             while (ce.MoveNext())
@@ -261,6 +268,10 @@ namespace Dos.Common
         [Obsolete("该方法已移至StringHelper")]
         public static string SubString(string str, int length)
         {
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return str;
+            }
             string result = str;
             int j = 0, k = 0;
             CharEnumerator ce = str.GetEnumerator();

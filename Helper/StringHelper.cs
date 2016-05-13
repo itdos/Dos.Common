@@ -31,8 +31,12 @@ namespace Dos.Common.Helper
         /// </summary>
         public static int Length(string str)
         {
-            int j = 0;
-            CharEnumerator ce = str.GetEnumerator();
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return 0;
+            }
+            var j = 0;
+            var ce = str.GetEnumerator();
             while (ce.MoveNext())
             {
                 j += (ce.Current > 0 && ce.Current < 255) ? 1 : 2;
@@ -47,9 +51,9 @@ namespace Dos.Common.Helper
         /// <returns></returns>
         public static string SubString(string str, int length)
         {
-            string result = str;
+            var result = str;
             int j = 0, k = 0;
-            CharEnumerator ce = str.GetEnumerator();
+            var ce = str.GetEnumerator();
             while (ce.MoveNext())
             {
                 j += (ce.Current > 0 && ce.Current < 255) ? 1 : 2;

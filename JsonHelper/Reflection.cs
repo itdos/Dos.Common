@@ -165,7 +165,7 @@ namespace Dos.Common
                         continue;
                     }
                     #region 取自定义属性 by itdos.com 2016-04-27
-                    var tbl = p.GetCustomAttribute<JsonProp>(false) as JsonProp;
+                    var tbl = p.DosGetCustomAttribute<JsonProp>(false) as JsonProp;
                     var name = tbl != null ? tbl.PropertyName : p.Name;
                     #endregion
                     //myPropInfo d = CreateMyProp(p.PropertyType, p.Name, customType);
@@ -538,7 +538,7 @@ namespace Dos.Common
                 }
                 GenericGetter g = CreateGetMethod(type, p);
                 #region 取自定义属性名 by itdos.com 2016-04-27
-                var tbl = p.GetCustomAttribute<JsonProp>(false) as JsonProp;
+                var tbl = p.DosGetCustomAttribute<JsonProp>(false) as JsonProp;
                 var name = tbl != null ? tbl.PropertyName : p.Name;
                 var lcName = name.ToLower();
                 #endregion

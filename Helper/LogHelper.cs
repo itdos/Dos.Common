@@ -8,11 +8,12 @@ using System.Text;
 namespace Dos.Common
 {
     /// <summary>
-    /// 日志帮助类。web.config-AppSettings可以配置DosLogHelperDebug=0或DosLogHelperError=0来关闭日志记录。
-    /// 如果不传入path参数，默认是在~/Log/下生成日志文件，也可以web.config-AppSettings配置DosLogHelperPath来设置默认日志文件路径，格式：D;\\File\\Log\\。
+    /// 日志帮助类。AppSettings节点可以配置Dos.LogHelper.Debug=0或Dos.LogHelper.Error=0来关闭日志记录。
+    /// 如果不传入path参数，默认是在~/Log/下生成日志文件，也可以在AppSettings节点配置Dos.LogHelper.Path来设置默认日志文件路径，格式：D:\\File\\Log\\。
     /// </summary>
     public class LogHelper
     {
+        private static readonly object Olock = new object();
         private enum LogHelperType
         {
             debug, error
@@ -46,64 +47,67 @@ namespace Dos.Common
         /// <Param name="logtype"></Param>
         private static void Write(LogHelperType logtype, string content, string filePrefixName = null, string path = null)
         {
-            try
+            lock (Olock)
             {
-                if (logtype == LogHelperType.debug)
+                try
                 {
-                    var dosDebug = ConfigurationManager.AppSettings["DosLogHelperDebug"];
-                    if (dosDebug != null && dosDebug != "1")
+                    if (logtype == LogHelperType.debug)
                     {
-                        return;
-                    }
-                }
-                else
-                {
-                    var dosError = ConfigurationManager.AppSettings["DosLogHelperError"];
-                    if (dosError != null && dosError != "1")
-                    {
-                        return;
-                    }
-                }
-                #region 日志文件
-                var fileName = filePrefixName + DateTime.Now.ToString("yyyyMMdd") + logtype.ToString() + ".txt";
-                if (string.IsNullOrWhiteSpace(path))
-                {
-                    var dosPath = ConfigurationManager.AppSettings["DosLogHelperPath"];
-                    if (string.IsNullOrWhiteSpace(dosPath))
-                    {
-                        path = AppDomain.CurrentDomain.BaseDirectory + "\\Logs\\" + fileName;
+                        var dosDebug = ConfigurationManager.AppSettings["Dos.LogHelper.Debug"];
+                        if (dosDebug != null && dosDebug != "1")
+                        {
+                            return;
+                        }
                     }
                     else
                     {
-                        path = dosPath + fileName;
+                        var dosError = ConfigurationManager.AppSettings["Dos.LogHelper.Error"];
+                        if (dosError != null && dosError != "1")
+                        {
+                            return;
+                        }
                     }
+                    #region 日志文件
+                    var fileName = filePrefixName + DateTime.Now.ToString("yyyyMMdd") + logtype.ToString() + ".txt";
+                    if (string.IsNullOrWhiteSpace(path))
+                    {
+                        var dosPath = ConfigurationManager.AppSettings["Dos.LogHelper.Path"];
+                        if (string.IsNullOrWhiteSpace(dosPath))
+                        {
+                            path = AppDomain.CurrentDomain.BaseDirectory + "\\Logs\\" + fileName;
+                        }
+                        else
+                        {
+                            path = dosPath + fileName;
+                        }
+                    }
+                    else
+                    {
+                        path += fileName;
+                    }
+                    var di = new DirectoryInfo(path.Replace(fileName, ""));
+                    if (!di.Exists)
+                    {
+                        di.Create();
+                    }
+                    //判断文件大小，需要新开文件
+                    using (var fs = new FileStream(path, FileMode.Append, FileAccess.Write))
+                    {
+                        var sw = new StreamWriter(fs);
+                        sw.Write(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        sw.WriteLine();
+                        sw.Write(content);
+                        sw.WriteLine();
+                        sw.Write("-----------------------------------------------------------------------------");
+                        sw.WriteLine();
+                        sw.Flush();
+                        sw.Close();
+                    }
+                    #endregion
                 }
-                else
+                catch
                 {
-                    path += fileName;
                 }
-                var di = new DirectoryInfo(path.Replace(fileName, ""));
-                if (!di.Exists)
-                {
-                    di.Create();
-                }
-                //判断文件大小，需要新开文件
-                using (var fs = new FileStream(path, FileMode.Append, FileAccess.Write))
-                {
-                    var sw = new StreamWriter(fs);
-                    sw.Write(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                    sw.WriteLine();
-                    sw.Write(content);
-                    sw.WriteLine();
-                    sw.Write("-----------------------------------------------------------------------------");
-                    sw.WriteLine();
-                    sw.Flush();
-                    sw.Close();
-                }
-                #endregion
-            }
-            catch
-            {
             }
         }
     }
