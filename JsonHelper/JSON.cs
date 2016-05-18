@@ -90,6 +90,10 @@ namespace Dos.Common
         /// Save property/field names as lowercase (default = false)
         /// </summary>
         public bool SerializeToLowerCaseNames = false;
+        /// <summary>
+        /// DataTable类型是否默认序列化TableName (default = true) by itdos.com
+        /// </summary>
+        public bool DataTableToGeneralJson = true;
 
         public void FixValues()
         {
@@ -361,7 +365,7 @@ namespace Dos.Common
             if (type != null && type == typeof(DataSet))
                 return CreateDataset(o as Dictionary<string, object>, null);
             else if (type != null && type == typeof(DataTable))
-                return CreateDataTable(o as Dictionary<string, object>, null);
+                return CreateDataTable(o, null);// by itdos.com
 #endif
             if (o is IDictionary)
             {
@@ -630,7 +634,7 @@ namespace Dos.Common
                             case myPropInfoType.ByteArray: oset = Convert.FromBase64String((string)v); break;
 #if !SILVERLIGHT
                             case myPropInfoType.DataSet: oset = CreateDataset((Dictionary<string, object>)v, globaltypes); break;
-                            case myPropInfoType.DataTable: oset = CreateDataTable((Dictionary<string, object>)v, globaltypes); break;
+                            case myPropInfoType.DataTable: oset = CreateDataTable(v, globaltypes); break;// by itdos.com
                             case myPropInfoType.Hashtable: // same case as Dictionary
 #endif
                             case myPropInfoType.Dictionary: oset = CreateDictionary((List<object>)v, pi.pt, pi.GenericTypes, globaltypes); break;
@@ -977,10 +981,36 @@ namespace Dos.Common
             dt.EndInit();
         }
 
-        DataTable CreateDataTable(Dictionary<string, object> reader, Dictionary<string, object> globalTypes)
+        DataTable CreateDataTable(object o, Dictionary<string, object> globalTypes)// by itdos.com
         {
+            var reader = o as Dictionary<string, object>;
             var dt = new DataTable();
-
+            if (_params.DataTableToGeneralJson)
+            {
+                foreach (var k in (IList)o)
+                {
+                    var dic = k as Dictionary<string, object>;
+                    var rows = new List<object>();
+                    var haveCol = dt.Columns.Count == 0;
+                    foreach (var o1 in dic)
+                    {
+                        if (haveCol)
+                        {
+                            if (o1.Value == null)
+                            {
+                                dt.Columns.Add(o1.Key);
+                            }
+                            else
+                            {
+                                dt.Columns.Add(o1.Key, o1.Value.GetType());
+                            }
+                        }
+                        rows.Add(o1.Value);
+                    }
+                    dt.Rows.Add(rows.ToArray());
+                }
+                return dt;
+            }
             // read dataset schema here
             var schema = reader["$schema"];
 

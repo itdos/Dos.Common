@@ -201,7 +201,9 @@
   <ItemGroup>
     <None Include="LICENSE" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="fastJSON更新日志.txt" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Dos.Common更新日志.txt" />
   </ItemGroup>

@@ -1,0 +1,18 @@
+﻿2016-05-18
+	*）增加fastJSON序列化DataTable时DataTableToGeneralJson=true的配置，false时与之前一样，默认为true时，与Json.Net序列化的结果一致。并且增加支持反序列化为DataTable类型。
+
+2016-05-12
+	*）修复fastJSON反序列化时int转string出错的Bug。
+	*）修复fastJSON反序列化不带引号的key出错的Bug，如反序列化[{a:"1"}]。
+	*）修复fastJSON反序列化Dictionary<string, string>时int转string出错的Bug。
+	*）修复fastJSON反序列化“空字符串”为int、long等数字类型时出错的Bug。
+
+2016-05-03
+	*）修复fastJSON反序列化"2015-5-1 9:8"此时间格式时的Bug。
+	*）修复fastJSON反序列化“string类型”为int、long等数字类型时出错的Bug。
+
+2016-04-27
+	*）修复fastJSON不支持ulong等类型的反序列化。
+	*）增加[JsonProp(PropertyName = "customer")]以便序列化、反序列化自定义属性名，同时让fastJSON支持标记自定义属性名。
+	*）修改fastJSON一些内置参数的默认值，让它更符合国内使用。
+	*）修复fastJSON不支持字符串反序列化为int等数字类型的bug。

@@ -303,35 +303,56 @@ namespace Dos.Common
             _output.Append('}');
         }
 
-        private void WriteDataTableData(DataTable table)
+        private void WriteDataTableData(DataTable table)// biy itdos.com
         {
-            _output.Append('\"');
-            _output.Append(table.TableName);
-            _output.Append("\":[");
+            if (!_params.DataTableToGeneralJson)
+            {
+                _output.Append('\"');
+                _output.Append(table.TableName);
+                _output.Append("\":[");
+            }
+            else
+            {
+                _output.Append("[");
+            }
             DataColumnCollection cols = table.Columns;
             bool rowseparator = false;
             foreach (DataRow row in table.Rows)
             {
                 if (rowseparator) _output.Append(',');
                 rowseparator = true;
-                _output.Append('[');
+
+                _output.Append(_params.DataTableToGeneralJson ? '{' : '[');
 
                 bool pendingSeperator = false;
                 foreach (DataColumn column in cols)
                 {
                     if (pendingSeperator) _output.Append(',');
-                    WriteValue(row[column]);
+
+                    if (!_params.DataTableToGeneralJson)
+                    {
+                        WriteValue(row[column]);
+                    }
+                    else
+                    {
+                        WritePair(column.ColumnName, row[column]);
+                    }
+
                     pendingSeperator = true;
                 }
-                _output.Append(']');
+
+                _output.Append(_params.DataTableToGeneralJson ? '}' : ']');
             }
 
             _output.Append(']');
         }
 
-        void WriteDataTable(DataTable dt)
+        void WriteDataTable(DataTable dt)// biy itdos.com
         {
-            this._output.Append('{');
+            if (!_params.DataTableToGeneralJson)
+            {
+                this._output.Append('{');
+            }
             if (_params.UseExtensions)
             {
                 this.WritePair("$schema", _params.UseOptimizedDatasetSchema ? (object)this.GetSchema(dt) : this.GetXmlSchema(dt));
@@ -341,7 +362,10 @@ namespace Dos.Common
             WriteDataTableData(dt);
 
             // end datatable
-            this._output.Append('}');
+            if (!_params.DataTableToGeneralJson)// biy itdos.com
+            {
+                this._output.Append('}');
+            }
         }
 #endif
 
