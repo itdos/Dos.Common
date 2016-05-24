@@ -20,7 +20,11 @@ namespace Dos.Common
         /// <returns></returns>
         public static string DosTrim(this string str)
         {
-            return str?.Trim() ?? "";
+            if (str != null)
+            {
+                return str.Trim() ?? null;
+            }
+            return null;
         }
         /// <summary>
         /// 
@@ -30,7 +34,11 @@ namespace Dos.Common
         /// <returns></returns>
         public static string DosTrim(this string str, params char[] trimChars)
         {
-            return str?.Trim(trimChars) ?? "";
+            if (str != null)
+            {
+                return str.Trim(trimChars) ?? null;
+            }
+            return null;
         }
         /// <summary>
         /// 
@@ -40,7 +48,11 @@ namespace Dos.Common
         /// <returns></returns>
         public static string DosTrimStart(this string str, params char[] trimChars)
         {
-            return str?.TrimStart(trimChars) ?? "";
+            if (str != null)
+            {
+                return str.TrimStart(trimChars) ?? null;
+            }
+            return null;
         }
         /// <summary>
         /// 
@@ -50,7 +62,11 @@ namespace Dos.Common
         /// <returns></returns>
         public static string DosTrimEnd(this string str, params char[] trimChars)
         {
-            return str?.TrimEnd(trimChars) ?? "";
+            if (str != null)
+            {
+                return str.TrimEnd(trimChars) ?? null;
+            }
+            return null;
         }
         /// <summary>
         /// 是否是Guid
