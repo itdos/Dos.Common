@@ -22,9 +22,18 @@ namespace Dos.Common
         {
             if (str != null)
             {
-                return str.Trim() ?? null;
+                return str.Trim();
             }
             return null;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static bool DosIsNullOrWhiteSpace(this string str)
+        {
+            return string.IsNullOrWhiteSpace(str);
         }
         /// <summary>
         /// 
@@ -36,7 +45,21 @@ namespace Dos.Common
         {
             if (str != null)
             {
-                return str.Trim(trimChars) ?? null;
+                return str.Trim(trimChars);
+            }
+            return null;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="trimChars"></param>
+        /// <returns></returns>
+        public static string DosReplace(this string str, string str1, string str2)
+        {
+            if (str != null)
+            {
+                return str.Replace(str1, str2);
             }
             return null;
         }
@@ -50,7 +73,7 @@ namespace Dos.Common
         {
             if (str != null)
             {
-                return str.TrimStart(trimChars) ?? null;
+                return str.TrimStart(trimChars);
             }
             return null;
         }
@@ -64,7 +87,7 @@ namespace Dos.Common
         {
             if (str != null)
             {
-                return str.TrimEnd(trimChars) ?? null;
+                return str.TrimEnd(trimChars);
             }
             return null;
         }
@@ -128,7 +151,7 @@ namespace Dos.Common
         /// </summary>
         /// <param name="ip"></param>
         /// <returns></returns>
-        public static bool DosIsIP(this string ip)
+        public static bool DosIsIp(this string ip)
         {
             return RegexHelper.IsIP(ip);
         }

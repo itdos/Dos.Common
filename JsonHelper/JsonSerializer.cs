@@ -211,24 +211,33 @@ namespace Dos.Common
                 dt = dateTime.ToUniversalTime();
 
             _output.Append('\"');
-            _output.Append(dt.Year.ToString("0000", NumberFormatInfo.InvariantInfo));
-            _output.Append('-');
-            _output.Append(dt.Month.ToString("00", NumberFormatInfo.InvariantInfo));
-            _output.Append('-');
-            _output.Append(dt.Day.ToString("00", NumberFormatInfo.InvariantInfo));
-            _output.Append('T'); // strict ISO date compliance 
-            _output.Append(dt.Hour.ToString("00", NumberFormatInfo.InvariantInfo));
-            _output.Append(':');
-            _output.Append(dt.Minute.ToString("00", NumberFormatInfo.InvariantInfo));
-            _output.Append(':');
-            _output.Append(dt.Second.ToString("00", NumberFormatInfo.InvariantInfo));
-            if (_params.DateTimeMilliseconds)
+
+            if (_params.UseStrictIsoDate)
             {
-                _output.Append('.');
-                _output.Append(dt.Millisecond.ToString("000", NumberFormatInfo.InvariantInfo));
+                _output.Append(dt.Year.ToString("0000", NumberFormatInfo.InvariantInfo));
+                _output.Append('-');
+                _output.Append(dt.Month.ToString("00", NumberFormatInfo.InvariantInfo));
+                _output.Append('-');
+                _output.Append(dt.Day.ToString("00", NumberFormatInfo.InvariantInfo));
+                _output.Append('T'); // strict ISO date compliance 
+                _output.Append(dt.Hour.ToString("00", NumberFormatInfo.InvariantInfo));
+                _output.Append(':');
+                _output.Append(dt.Minute.ToString("00", NumberFormatInfo.InvariantInfo));
+                _output.Append(':');
+                _output.Append(dt.Second.ToString("00", NumberFormatInfo.InvariantInfo));
+                if (_params.DateTimeMilliseconds)
+                {
+                    _output.Append('.');
+                    _output.Append(dt.Millisecond.ToString("000", NumberFormatInfo.InvariantInfo));
+                }
+                if (_params.UseUTCDateTime)
+                    _output.Append('Z');
             }
-            if (_params.UseUTCDateTime)
-                _output.Append('Z');
+            else
+            {
+                _output.Append(dt.ToString(_params.DateFormatString));
+            }
+
 
             _output.Append('\"');
         }
@@ -426,7 +435,7 @@ namespace Dos.Common
                 append = true;
             }
 
-            Getters[] g = Reflection.Instance.GetGetters(t, _params.ShowReadOnlyProperties, _params.IgnoreAttributes);
+            Getters[] g = Reflection.Instance.GetGetters(t, _params.ShowReadOnlyProperties, _params.IgnoreAttributes, _params.UseFalseLiteral);
             int c = g.Length;
             for (int ii = 0; ii < c; ii++)
             {

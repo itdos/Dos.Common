@@ -37,10 +37,14 @@ namespace Dos.Common
         /// </summary>
         public string Url { get; set; }
         /// <summary>
+        /// 参数类型。可选：Json、Form。默认Json。传入Form则会将new { Key1 = Value1, Key2 = Value2}转换成"key1=value1＆key2=value2"形式。
+        /// </summary>
+        public EnumHelper.HttpParamType ParamType { get; set; }
+        /// <summary>
         /// Post参数。
         /// <para>可以传入Json对像：new { Key1 = Value1, Key2 = Value2}</para>
         /// <para>可以传入Json字符串：{"Key1":"Value1","Key2":"Value2"}</para>
-        /// <para>可以传入key/value字符串："ke=value＆key=value"</para>
+        /// <para>可以传入key/value字符串："key1=value1＆key2=value2"</para>
         /// <para>可以传入xml字符串等等</para>
         /// </summary>
         public object PostParam { get; set; }
@@ -50,7 +54,7 @@ namespace Dos.Common
         /// <para>可以传入Json字符串：{"Key1":"Value1","Key2":"Value2"}</para>
         /// </summary>
         public object GetParam { get; set; }
-
+       
         private int _timeOut = 5;
         /// <summary>
         /// 请求超时时间。单位：秒。默认值5秒。

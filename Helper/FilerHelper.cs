@@ -12,9 +12,9 @@ namespace Dos.Common
     public class FileHelper
     {
         /// <summary>
-        /// 从文件中读取所有内容。（如果文件不存在，返回空字符串）
+        /// 从文件中读取所有内容。（如果文件不存在，返回空字符串）。
+        ///<para>filePath：完整路径，如D:\Temp\Temp.json</para>
         /// </summary>
-        /// <Param name="filePath">完整路径，如D:\Temp\Temp.json</Param>
         /// <returns></returns>
         public static string Read(string filePath, Encoding encoding = null)
         {
@@ -36,6 +36,10 @@ namespace Dos.Common
         /// <returns></returns>
         public static bool Write(string filePath, string content, Encoding encoding = null)
         {
+            if (filePath.StartsWith("~") || filePath.StartsWith("/"))
+            {
+                //filePath = AppDomain.CurrentDomain.RelativeSearchPath
+            }
             File.Delete(filePath);
             using (var fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
             {

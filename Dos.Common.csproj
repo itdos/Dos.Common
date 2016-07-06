@@ -30,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Dos.Common.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -50,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Common\CommonExpand.cs" />
     <Compile Include="Common\CommonHelper.cs" />
+    <Compile Include="Common\EnumHelper.cs" />
     <Compile Include="Common\Types.cs" />
     <Compile Include="EmitMapper\AST\CompilationContext.cs" />
     <Compile Include="EmitMapper\AST\Helpers\AstBuildHelper.cs" />
@@ -167,15 +169,6 @@
     <Compile Include="EmitMapper\Utils\ReflectionUtils.cs" />
     <Compile Include="EmitMapper\Utils\ThreadSaveCache.cs" />
     <Compile Include="Helper\StringHelper.cs" />
-    <Compile Include="JsonHelper\dynamic.cs" />
-    <Compile Include="JsonHelper\Formatter.cs" />
-    <Compile Include="JsonHelper\Getters.cs" />
-    <Compile Include="JsonHelper\JSON.cs" />
-    <Compile Include="JsonHelper\JsonParser.cs" />
-    <Compile Include="JsonHelper\JsonProp.cs" />
-    <Compile Include="JsonHelper\JsonSerializer.cs" />
-    <Compile Include="JsonHelper\Reflection.cs" />
-    <Compile Include="JsonHelper\SafeDictionary.cs" />
     <Compile Include="Helper\CacheHelper.cs" />
     <Compile Include="Helper\CmdHelper.cs" />
     <Compile Include="Helper\ConvertHelper.cs" />
@@ -189,6 +182,15 @@
     <Compile Include="Helper\MsmqHelper.cs" />
     <Compile Include="Helper\RegexHelper.cs" />
     <Compile Include="Helper\ImageHelper.cs" />
+    <Compile Include="JsonHelper\dynamic.cs" />
+    <Compile Include="JsonHelper\Formatter.cs" />
+    <Compile Include="JsonHelper\Getters.cs" />
+    <Compile Include="JsonHelper\JSON.cs" />
+    <Compile Include="JsonHelper\JsonParser.cs" />
+    <Compile Include="JsonHelper\JsonProp.cs" />
+    <Compile Include="JsonHelper\JsonSerializer.cs" />
+    <Compile Include="JsonHelper\Reflection.cs" />
+    <Compile Include="JsonHelper\SafeDictionary.cs" />
     <Compile Include="Model\AccountInfo.cs" />
     <Compile Include="Model\BaseResult.cs" />
     <Compile Include="Helper\EmailHelper.cs" />

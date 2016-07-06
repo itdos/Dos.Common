@@ -507,7 +507,7 @@ namespace Dos.Common
             return (GenericGetter)getter.CreateDelegate(typeof(GenericGetter));
         }
 
-        internal Getters[] GetGetters(Type type, bool ShowReadOnlyProperties, List<Type> IgnoreAttributes)//JSONParameters param)
+        internal Getters[] GetGetters(Type type, bool ShowReadOnlyProperties, List<Type> IgnoreAttributes,bool UseFalseLiteral)//JSONParameters param)
         {
             Getters[] val = null;
             if (_getterscache.TryGetValue(type, out val))
@@ -568,7 +568,7 @@ namespace Dos.Common
                     if (found)
                         continue;
                 }
-                if (f.IsLiteral == false)
+                if (f.IsLiteral == false && UseFalseLiteral)
                 {
                     GenericGetter g = CreateGetField(type, f);
                     if (g != null)

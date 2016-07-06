@@ -1,4 +1,10 @@
-﻿2016-05-18
+﻿2016-06-21
+	*）增加DateFormatString、UseStrictIsoDate、UseFalseLiteral配置，可以在序列化的时候指定日期格式化方式等。
+
+2016-06-14
+	*）修复fastJSON反序列化Dictionary<string,string>时，int值转string时为null的Bug。
+
+2016-05-18
 	*）增加fastJSON序列化DataTable时DataTableToGeneralJson=true的配置，false时与之前一样，默认为true时，与Json.Net序列化的结果一致。并且增加支持反序列化为DataTable类型。
 
 2016-05-12

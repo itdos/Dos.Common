@@ -28,6 +28,18 @@ namespace Dos.Common
         /// </summary>
         public bool SerializeNullValues = true;
         /// <summary>
+        /// 是否采用严格的ISO日期 (default = false)  by itdos.com
+        /// </summary>
+        public bool UseStrictIsoDate = false;
+        /// <summary>
+        /// 日期格式化 (default = "yyyy-MM-dd HH:mm:ss")  by itdos.com
+        /// </summary>
+        public string DateFormatString = "yyyy-MM-dd HH:mm:ss";
+        /// <summary>
+        /// IsLiteral=false时是否序列化。(default = false)
+        /// </summary>
+        public bool UseFalseLiteral = false;
+        /// <summary>
         /// Use the UTC date format (default = True)
         /// </summary>
         public bool UseUTCDateTime = false;
@@ -75,7 +87,7 @@ namespace Dos.Common
         /// </summary>
         public bool ParametricConstructorOverride = false;
         /// <summary>
-        /// Serialize DateTime milliseconds i.e. yyyy-MM-dd HH:mm:ss.nnn (default = false)
+        /// 是否序列化DateTime毫秒。 yyyy-MM-dd HH:mm:ss.nnn (default = false)
         /// </summary>
         public bool DateTimeMilliseconds = false;
         /// <summary>
@@ -426,7 +438,7 @@ namespace Dos.Common
                 return isNullOrWhiteSpace ? (object)null : long.Parse(value.ToString());
 
             else if (conversionType == typeof(string))
-                return isNullOrWhiteSpace ? null : value as string;//by itdos.com 2016-05-09
+                return isNullOrWhiteSpace ? null : value.ToString();//by itdos.com 2016-05-09
             #endregion
 
             else if (conversionType.IsEnum)

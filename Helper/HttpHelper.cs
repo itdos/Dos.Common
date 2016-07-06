@@ -208,6 +208,11 @@ namespace Dos.Common
                 {
                     postParamString = param.PostParam.ToString();
                 }
+                else if (param.ParamType == EnumHelper.HttpParamType.Form)
+                {
+                    var dicParam = JSON.ToObject<Dictionary<string,string>>(JSON.ToJSON(param.PostParam));
+                    postParamString = dicParam.Aggregate(postParamString, (current, dic) => current + (dic.Key + "=" + dic.Value + "&")).TrimEnd('&');
+                }
                 else
                 {
                     postParamString = JSON.ToJSON(param.PostParam);
